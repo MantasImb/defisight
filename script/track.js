@@ -64,7 +64,7 @@ const WETHContract = new ethers.Contract(
 
 // FUNCTIONALITY
 
-// creates a listener for an account balance change
+// creates a listener for an account balance change (incomplete)
 async function createBalanceListener(accountCA) {
   let oldBalance = await provider.getBalance(accountCA)
 }

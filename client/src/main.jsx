@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client"
 import App from "./App"
 import "./index.css"
 
-import EthereumProvider from "./EthereumContext"
+import APIProvider from "./APIContext"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <EthereumProvider>
+  <APIProvider>
     <App />
-  </EthereumProvider>
+  </APIProvider>
 )

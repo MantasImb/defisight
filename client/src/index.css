@@ -1,3 +1,64 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: auto;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+  /* background-color: #181818;
+  background-image: radial-gradient(at 10% 10%, #8758ff25, transparent 50%),
+    radial-gradient(at 80% 90%, #5cb9e45f, transparent 50%); */
+}
+
+.gradient-bg {
+  background-color: #0f0e13;
+  background-image: radial-gradient(
+      at 0% 0%,
+      hsla(253, 16%, 7%, 1) 0,
+      transparent 50%
+    ),
+    radial-gradient(at 50% 100%, hsla(225, 39%, 25%, 1) 0, transparent 50%);
+}
+
+.blue-glassmorphism {
+  background: rgb(39, 51, 89, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.white-glassmorphism {
+  background: rgba(255, 255, 255, 0.05);
+  /* border-radius: 16px; */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  /* border: 1px solid rgba(255, 255, 255, 0.3); */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.189);
+  border-radius: 2px;
+}

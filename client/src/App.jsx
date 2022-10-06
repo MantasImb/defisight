@@ -1,11 +1,11 @@
 import React from "react"
-import Header from "./components/Header"
+import Menu from "./components/Menu"
 import Tracker from "./components/Tracker"
 
 function App() {
   return (
     <>
-      <Header />
+      <Menu />
       <Tracker />
     </>
   )
