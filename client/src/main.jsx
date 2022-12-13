@@ -3,10 +3,13 @@ import ReactDOM from "react-dom/client"
 import App from "./App"
 import "./index.css"
 
-import APIProvider from "./APIContext"
+import APIProvider from "./contexts/APIProvider"
+import { StateProvider } from "./contexts/StateProvider"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <APIProvider>
-    <App />
-  </APIProvider>
+  <StateProvider>
+    <APIProvider>
+      <App />
+    </APIProvider>
+  </StateProvider>
 )

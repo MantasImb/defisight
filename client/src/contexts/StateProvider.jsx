@@ -1,0 +1,71 @@
+// TODO: Work with local storage to save the theme settings
+
+import React, { createContext, useState, useEffect } from "react"
+
+export const StateContext = createContext()
+
+const initialState = {
+  chat: false,
+  cart: false,
+  userProfile: false,
+  notification: false,
+}
+
+export function StateProvider({ children }) {
+  const [activeMenu, setActiveMenu] = useState(true)
+  const [isClicked, setIsClicked] = useState(initialState)
+  const [screenSize, setScreenSize] = useState(undefined)
+  const [currentColor, setCurrentColor] = useState("#6b2bd9")
+  const [currentMode, setCurrentMode] = useState("Light")
+  const [themeSettings, setThemeSettings] = useState(false)
+  const [toastState, setToastState] = useState({
+    message: "",
+    type: "",
+  })
+
+  function setMode(e) {
+    setCurrentMode(e.target.value)
+    localStorage.setItem("themeMode", e.target.value)
+    setThemeSettings(false)
+  }
+
+  function setColor(arg) {
+    setCurrentColor(arg)
+    localStorage.setItem("themeColor", arg)
+    setThemeSettings(false)
+  }
+
+  function handleClick(clicked) {
+    setIsClicked({ ...initialState, [clicked]: true })
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setToastState({ message: "", type: "" })
+    }, 1000 * 5)
+  }, [toastState])
+
+  return (
+    <StateContext.Provider
+      value={{
+        activeMenu,
+        setActiveMenu,
+        isClicked,
+        setIsClicked,
+        handleClick,
+        screenSize,
+        setScreenSize,
+        currentColor,
+        currentMode,
+        setColor,
+        setMode,
+        themeSettings,
+        setThemeSettings,
+        toastState,
+        setToastState,
+      }}
+    >
+      {children}
+    </StateContext.Provider>
+  )
+}

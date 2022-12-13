@@ -107,8 +107,8 @@ async function getBalance(accountCA) {
 }
 
 // gets balances for all accounts in array
-async function getBalances(array) {
-  for (const walletCA of trackedWallets) {
+async function getBalances2(array) {
+  for (const walletCA of array) {
     const balance = await provider.getBalance(walletCA)
     const item = {
       address: walletCA,
@@ -119,26 +119,69 @@ async function getBalances(array) {
   console.log("Balances fetched.")
 }
 
-// looks for difference in previous balance vs now and logs if difference is found
-async function balanceChanged(wallet) {
-  const newBalance = await provider.getBalance(wallet.address)
-  console.log(newBalance)
-  console.log(wallet.balance)
-  console.log(newBalance.eq(wallet.balance))
-  if (!newBalance.eq(wallet.balance)) {
-    console.log(`Balance changed for wallet: ${wallet.address}`)
+// get balances fast
+function getBalances(array) {
+  let promises = []
+  for (const walletCA of array) {
+    let promise = provider.getBalance(walletCA)
+    promises.push(promise)
   }
+  Promise.all(promises)
+    .then((results) => {
+      for (let i = 0; i < array.length; i++) {
+        let item = {
+          address: array[i],
+          balance: results[i],
+        }
+        balances.push(item)
+      }
+    })
+    .catch((e) => console.log(e))
+  console.log("Balances fetched.")
+}
+
+// looks for difference in previous balance vs now and gets transactions if difference is found
+async function balanceChanged(wallet, blockNumber) {
+  const newBalance = await provider.getBalance(wallet.address)
+  if (!newBalance.eq(wallet.balance)) {
+    let txs = await etherscanProvider.getHistory(wallet.address, blockNumber)
+    console.log(
+      `Balance for wallet ${wallet.address} has changed on block ${blockNumber}. Transactions:`
+    )
+    console.log(txs)
+  }
+  wallet.balance = newBalance
+}
+
+async function balanceChangedDelayed(wallet, blockNumber) {
+  const newBalance = await provider.getBalance(wallet.address)
+  if (!newBalance.eq(wallet.balance)) {
+    setTimeout(async () => {
+      let txs = await etherscanProvider.getHistory(wallet.address, blockNumber)
+      console.log(
+        `Balance for wallet ${wallet.address} has changed on block ${blockNumber}. Transactions:`
+      )
+      console.log(txs)
+    }, 15 * 1000)
+  }
+  wallet.balance = newBalance
 }
 
 async function main() {
-  await getBalances(trackedWallets)
+  getBalances(trackedWallets)
 
   provider.on("block", (blockNumber) => {
     console.log("Block number: ", blockNumber)
     for (const wallet of balances) {
-      balanceChanged(wallet)
+      balanceChangedDelayed(wallet, blockNumber)
     }
   })
+
+  // let txs = await etherscanProvider.getHistory(
+  //   "0xFF05c2Bc8461622359F33dbea618bb028D943eCE",
+  //   8031284
+  // )
+  // console.log(txs)
 }
 
 main()
