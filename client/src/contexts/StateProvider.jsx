@@ -4,20 +4,13 @@ import React, { createContext, useState, useEffect } from "react"
 
 export const StateContext = createContext()
 
-const initialState = {
-  chat: false,
-  cart: false,
-  userProfile: false,
-  notification: false,
-}
-
 export function StateProvider({ children }) {
   const [activeMenu, setActiveMenu] = useState(true)
-  const [isClicked, setIsClicked] = useState(initialState)
   const [screenSize, setScreenSize] = useState(undefined)
   const [currentColor, setCurrentColor] = useState("#6b2bd9")
   const [currentMode, setCurrentMode] = useState("Light")
   const [themeSettings, setThemeSettings] = useState(false)
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [toastState, setToastState] = useState({
     message: "",
     type: "",
@@ -35,10 +28,6 @@ export function StateProvider({ children }) {
     setThemeSettings(false)
   }
 
-  function handleClick(clicked) {
-    setIsClicked({ ...initialState, [clicked]: true })
-  }
-
   useEffect(() => {
     setTimeout(() => {
       setToastState({ message: "", type: "" })
@@ -50,9 +39,8 @@ export function StateProvider({ children }) {
       value={{
         activeMenu,
         setActiveMenu,
-        isClicked,
-        setIsClicked,
-        handleClick,
+        notificationsOpen,
+        setNotificationsOpen,
         screenSize,
         setScreenSize,
         currentColor,

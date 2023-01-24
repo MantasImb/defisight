@@ -89,7 +89,7 @@ export default function Sidebar() {
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <SiShopware /> <span>BlockSight</span>
+              <SiShopware /> <span>ChainWatcher</span>
             </Link>
 
             <button
@@ -152,6 +152,7 @@ export default function Sidebar() {
               />
             </div>
           </div>
+          <span className="text-xs font-thin text-slate-500">v1.0</span>
         </>
       )}
     </div>

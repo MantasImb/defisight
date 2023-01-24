@@ -1,15 +1,36 @@
 const mongoose = require("mongoose")
+const { User, Wallet, Notification, Error } = require("./Schemas")
 
-mongoose
-  .connect(
-    // "mongodb://127.0.0.1/sightdb"
-    "mongodb+srv://dbDeployer:check@chainwatcherc.fq1afa9.mongodb.net/?retryWrites=true&w=majority"
-  )
-  .then(() => console.log("DB connected"))
-  .catch((e) => console.log(e))
+let errorArray = []
 
-const User = require("./User")
-const Wallet = require("./Wallet")
+async function connect(url) {
+  mongoose
+    .connect(url)
+    .then(() => console.log("DB connected"))
+    .catch((e) => errorArray.push(e))
+}
+
+async function createError(error) {
+  try {
+    errorArray.push(error)
+    const newError = await Error.create({
+      message: error.message,
+      errorStack: error.stack,
+    })
+    console.log(newError)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function fetchErrors() {
+  try {
+    const errors = Error.find()
+    return errors
+  } catch (error) {
+    createError(error)
+  }
+}
 
 async function createUser(userCA, referral) {
   try {
@@ -19,7 +40,7 @@ async function createUser(userCA, referral) {
     })
     return user
   } catch (error) {
-    console.error(error)
+    createError(error)
   }
 }
 
@@ -35,7 +56,7 @@ async function findOrCreateUser(userCA, referral) {
       return user
     }
   } catch (error) {
-    console.error(error)
+    createError(error)
   }
 }
 
@@ -51,6 +72,7 @@ async function addWallet(
   try {
     let user = await findOrCreateUser(userCA, referral)
     let wallet = await Wallet.create({
+      trackedByCA: userCA,
       tag,
       walletCA,
       chainId,
@@ -61,19 +83,38 @@ async function addWallet(
     user.save()
     return wallet
   } catch (error) {
-    console.log(error.message)
+    createError(error)
   }
 }
 
 async function getWallets(userCA) {
   try {
+    let user = await findOrCreateUser(userCA)
     let list = await User.where("userCA")
       .equals(userCA)
       .populate("trackedWallets")
     let [{ trackedWallets }] = list
     return trackedWallets
   } catch (error) {
-    console.error(error)
+    createError(error)
+  }
+}
+
+async function getAllChainWallets(chainId) {
+  try {
+    let wallets = await Wallet.find({ chainId: chainId })
+    return wallets
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function getUsersByWallet(walletCA) {
+  try {
+    let users = await User.find({ trackedWallets: walletCA })
+    return users
+  } catch (error) {
+    createError(error)
   }
 }
 
@@ -82,23 +123,106 @@ async function updateWallet(walletCA) {
   console.log(wallet)
 }
 
-async function deleteWallet(walletId) {
+async function deleteWallet(userCA, walletId) {
   try {
+    let user = await User.findOne({ userCA: userCA })
+    user.trackedWallets.pull(walletId)
+    user.save()
     let wallet = await Wallet.findByIdAndDelete(walletId)
-    console.log(wallet)
+    return wallet
   } catch (error) {
-    console.log(error)
+    createError(error)
+  }
+}
+
+async function updateTimestamp(walletCA, chainId) {
+  try {
+    let wallets = await Wallet.find({ walletCA: walletCA, chainId: chainId })
+    for (const wallet of wallets) {
+      wallet.updateTimestamp()
+    }
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function addNotification(userCA, notification) {
+  try {
+    let user = await User.findOne({ userCA })
+    let newNotification = await Notification.create({
+      ...notification,
+    })
+    // remove oldest notification if user has more than 25 notifications
+    if (user.notifications.length >= 25) {
+      await Notification.findOneAndDelete({
+        _id: user.notifications[0],
+      })
+      user.notifications.shift()
+    }
+    user.notifications.push(newNotification._id)
+    user.save()
+    return newNotification._id
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function getNotifications(userCA) {
+  try {
+    let list = await User.where("userCA")
+      .equals(userCA)
+      .populate("notifications")
+    let [{ notifications }] = list
+    if (notifications) {
+      return notifications.reverse()
+    }
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function notificationSeenAll(userCA) {
+  try {
+    let user = await User.findOne({ userCA }).populate("notifications")
+    user.notifications.forEach((notification) => {
+      notification.seen = true
+      notification.save()
+    })
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function notificationSeen(notificationId) {
+  try {
+    let notification = await Notification.findById(notificationId)
+    notification.seen = true
+    notification.save()
+  } catch (error) {
+    createError(error)
   }
 }
 
 module.exports = {
   User,
   Wallet,
+  mongoose,
+  connect,
+  createError,
+  fetchErrors,
   findOrCreateUser,
   addWallet,
   getWallets,
+  getAllChainWallets,
+  getUsersByWallet,
   updateWallet,
   deleteWallet,
+  addNotification,
+  getNotifications,
+  notificationSeen,
+  notificationSeenAll,
+  updateTimestamp,
+  errorArray,
 }
 
 // findOrCreateUser("0xff05c2bc8461622359f33dbea618bb028d943ece")
@@ -111,7 +235,5 @@ module.exports = {
 // )
 // updateWallet("0xC93DBa0F419E1a527E8ee046A5Cd1fD40F6E0517")
 
-async function main() {
-  deleteWallet("638b67eedf83a6d43ab6b95b")
-}
-// main()
+async function main() {}
+main()

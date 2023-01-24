@@ -1,4 +1,6 @@
 // TODO: Make a dashboard page
+// TODO: Make a welcome modal for new user to add a celebrity wallet/s
+// TODO: disable the add button if wallet is not connected
 
 import React, { useContext, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -59,7 +61,7 @@ export default function App() {
         </Toast>
       )}
       <BrowserRouter>
-        <div className="flex relative dark:bg-main-dark-bg">
+        <div className="flex relative dark:bg-main-dark-bg overflow-hidden">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
             <button
               type="button"
@@ -97,7 +99,7 @@ export default function App() {
             {/* {themeSettings && <ThemeSettings />} */}
             <Routes>
               {/* Dashboard */}
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<TrackedWallets />} />
               <Route path="/dashboard" element={<Dashboard />} />
 
               {/* Pages */}

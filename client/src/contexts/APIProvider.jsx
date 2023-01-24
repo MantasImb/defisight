@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { ethers } from "ethers"
+import io from "socket.io-client"
 
 export const APIContext = React.createContext()
 
-const url = "server.chainwatcher.app"
+const devWallets = [
+  "0xff05c2bc8461622359f33dbea618bb028d943ece",
+  "0xfdb4640119f214ab6ce6fc145897378a1e6a6f20",
+  "0xe88edd63010b5d0b1393ad772f19e282687cbef8",
+]
+
+const url = "https://server.chainwatcher.app/"
+// const url = "http://localhost:4000/"
+
+const socket = io(url)
 const { ethereum } = window
 
 export default function APIProvider({ children }) {
@@ -12,10 +22,15 @@ export default function APIProvider({ children }) {
 
   const [currentAccount, setCurrentAccount] = useState()
   const [chainId, setChainId] = useState()
+  const [notifications, setNotifications] = useState([])
+  const [unseenNotifications, setUnseenNotifications] = useState(0)
 
   const mainnetProvider = ethers.getDefaultProvider("https://rpc.ankr.com/eth")
   const bscProvider = ethers.getDefaultProvider(
     "https://bsc-dataseed.binance.org/"
+  )
+  const goerliProvider = ethers.getDefaultProvider(
+    "https://rpc.goerli.mudit.blog"
   )
 
   async function checkIfWalletIsConnect() {
@@ -53,6 +68,7 @@ export default function APIProvider({ children }) {
     let provider
     if (chainId == 1) provider = mainnetProvider
     if (chainId == 56) provider = bscProvider
+    if (chainId == 5) provider = goerliProvider
     try {
       let balance = await provider.getBalance(walletCA)
       return ethers.utils.formatEther(balance)
@@ -93,6 +109,7 @@ export default function APIProvider({ children }) {
 
   async function postWallet({ tag, address, chainId, highlight }) {
     try {
+      address = address.toLowerCase()
       let response = await axios.post(`${url}postwallet`, {
         currentAccount,
         tag,
@@ -108,11 +125,32 @@ export default function APIProvider({ children }) {
 
   async function deleteWallet(id) {
     try {
-      let response = await axios.delete(`${url}deletewallet/${id}`)
+      let response = await axios.delete(
+        `${url}deletewallet/${currentAccount}/${id}`
+      )
       if (response) return true
     } catch (error) {
       console.log(error)
-      if (response) return false
+      return false
+    }
+  }
+
+  // function to mark a notification, or notifications as seen
+  async function markNotificationAsSeen(id) {
+    try {
+      socket.emit("notificationSeen", id)
+      setUnseenNotifications((unseenNotifications) => unseenNotifications - 1)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function markAllNotificationsAsSeen() {
+    try {
+      socket.emit("notificationsSeenAll", currentAccount)
+      setUnseenNotifications(0)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -128,11 +166,61 @@ export default function APIProvider({ children }) {
     return history
   }
 
+  // Desktop Notifications
+
+  function showNotification(notification) {
+    new Notification("ChainWatcher.app", {
+      body: `Transaction detected on ${notification.tag}`,
+    })
+  }
+
+  function handleDesktopNotification(notification) {
+    if (Notification.permission === "granted") {
+      showNotification(notification)
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          showNotification(notification)
+        }
+      })
+    }
+  }
   // UseEffect
 
   useEffect(() => {
     checkIfWalletIsConnect()
+    if (!currentAccount) return
+    socket.emit("validate", currentAccount)
   }, [currentAccount])
+
+  useEffect(() => {
+    socket.on("notification", (data) => {
+      console.log(data)
+      setNotifications((notifications) => [data, ...notifications])
+      setUnseenNotifications((unseenNotifications) => unseenNotifications + 1)
+      handleDesktopNotification(data)
+    })
+    return () => {
+      socket.off("notification")
+    }
+  }, [socket])
+
+  useEffect(() => {
+    socket.on("notifications", (data) => {
+      console.log(data)
+      setNotifications(data)
+      let unseen = 0
+      data.forEach((notification) => {
+        if (!notification.seen) {
+          unseen++
+        }
+      })
+      setUnseenNotifications(unseen)
+    })
+    return () => {
+      socket.off("notifications")
+    }
+  }, [socket])
 
   return (
     <APIContext.Provider
@@ -145,6 +233,12 @@ export default function APIProvider({ children }) {
         postWallet,
         getBalance,
         deleteWallet,
+        notifications,
+        setNotifications,
+        unseenNotifications,
+        markNotificationAsSeen,
+        markAllNotificationsAsSeen,
+        devWallets,
       }}
     >
       {children}

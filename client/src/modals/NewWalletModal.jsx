@@ -5,7 +5,7 @@ import { ethers } from "ethers"
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai"
 import { BsDot } from "react-icons/bs"
 
-export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
+export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
   if (!isOpen) return null
 
   const [formValues, setFormValues] = useState({
@@ -236,6 +236,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
               >
                 <option value={1}>Ethereum</option>
                 <option value={56}>Binance</option>
+                {isDev && <option value={5}>Goerli</option>}
               </Select>
             </div>
           </div>

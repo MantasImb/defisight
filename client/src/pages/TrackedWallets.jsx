@@ -9,7 +9,8 @@ import NewWalletModal from "../modals/NewWalletModal"
 import { APIContext } from "../contexts/APIProvider"
 
 export default function TrackedWallets() {
-  const { currentAccount, getWallets, postWallet } = useContext(APIContext)
+  const { currentAccount, getWallets, postWallet, devWallets } =
+    useContext(APIContext)
   const [formIsOpen, setFormIsOpen] = useState(false)
 
   const [wallets, setWallets] = useState([])
@@ -66,6 +67,7 @@ export default function TrackedWallets() {
         onClose={() => setFormIsOpen(false)}
         setClose={setFormIsOpen}
         onSubmit={addWallet}
+        isDev={devWallets.includes(currentAccount)}
       ></NewWalletModal>
     </div>
   )

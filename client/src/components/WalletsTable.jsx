@@ -13,7 +13,7 @@ import { RiDeleteBin2Line } from "react-icons/ri"
 import { ReactComponent as BscScanLogo } from "../assets/bscscan-logo.svg"
 import { ReactComponent as EtherScanLogo } from "../assets/etherscan-logo.svg"
 
-import getAge from "../../utils/getAge"
+import { getAge } from "../../utils/getAge"
 import { shortenAddress } from "../../utils/shortenAddress"
 import { openInExplorerNewTab } from "../../utils/openInNewTab"
 import { BsDot, BsThreeDotsVertical } from "react-icons/bs"
@@ -65,6 +65,10 @@ export default function WalletsTable({ data, setData }) {
   const { deleteWallet } = useContext(APIContext)
   const { setToastState } = useContext(StateContext)
   const navigate = useNavigate()
+
+  function handleOpen(address, chainId) {
+    navigate(`/wallet-info/${chainId}/${address}`)
+  }
 
   const columns = useMemo(
     () => [
@@ -118,6 +122,7 @@ export default function WalletsTable({ data, setData }) {
               <Tooltip content={name}>
                 {value == 1 && <SiEthereum />}
                 {value == 56 && <SiBinance />}
+                {value == 5 && <p>GT</p>}
               </Tooltip>
             </div>
           )
@@ -147,8 +152,19 @@ export default function WalletsTable({ data, setData }) {
             inline={true}
             arrowIcon={false}
           >
-            <Dropdown.Item icon={AiOutlineStock}>Open</Dropdown.Item>
-            <Dropdown.Item>
+            <Dropdown.Item
+              icon={AiOutlineStock}
+              onClick={() =>
+                handleOpen(props.value.walletCA, props.value.chainId)
+              }
+            >
+              Open
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() =>
+                openInExplorerNewTab(props.value.walletCA, props.value.chainId)
+              }
+            >
               {props.value.chainId == 1 && (
                 <EtherScanLogo className="mr-2 h-4 w-4" />
               )}

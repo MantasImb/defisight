@@ -3,21 +3,23 @@ export function openInNewTab(url) {
 }
 
 export function openInExplorerNewTab(ca, chainId) {
-  let url = "https://goerli.etherscan.io/address/"
+  let url = `https://goerli.etherscan.io/address/${ca}`
   if (chainId == 56) {
-    url = "https://bscscan.com/address/"
+    url = `https://bscscan.com/address/${ca}`
   } else if (chainId == 1) {
-    url = "https://etherscan.com/address/"
+    url = `https://etherscan.com/address/${ca}`
   }
-  window.open(url + ca, "_blank").focus()
+  window.open(url, "_blank").focus()
 }
 
 export function openTxInExplorerNewTab(ca, chainId) {
-  let url = "https://goerli.etherscan.io/tx/"
+  let url
   if (chainId == 56) {
-    url = "https://bscscan.com/tx/"
+    url = `https://bscscan.com/tx/${ca}`
   } else if (chainId == 1) {
-    url = "https://etherscan.com/tx/"
+    url = `https://etherscan.com/tx/${ca}`
+  } else if (chainId == 5) {
+    url = `https://goerli.etherscan.io/tx/${ca}`
   }
-  window.open(url + ca, "_blank").focus()
+  window.open(url, "_blank").focus()
 }

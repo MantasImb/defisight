@@ -18,7 +18,7 @@ export default function WalletInfo() {
   const [historyError, setHistoryError] = useState()
   const [fetchingHistory, setFetchingHistory] = useState(false)
 
-  const { getHistory, currentAccount } = useContext(APIContext)
+  const { getHistory, currentAccount, devWallets } = useContext(APIContext)
   const { screenSize } = useContext(StateContext)
 
   function handleSubmit(e) {
@@ -73,6 +73,7 @@ export default function WalletInfo() {
               <>
                 {chainId == 1 && <SiEthereum />}
                 {chainId == 56 && <SiBinance />}
+                {chainId == 5 && "GT"}
                 {!chainId && <MdOutlineKeyboardArrowDown />}
               </>
             }
@@ -93,6 +94,14 @@ export default function WalletInfo() {
             >
               Binance Smart Chain
             </Dropdown.Item>
+            {devWallets.includes(currentAccount) && (
+              <Dropdown.Item
+                icon={SiEthereum}
+                onClick={() => navigate(`/wallet-info/5/${searchValue}`)}
+              >
+                Goerli TESTNET
+              </Dropdown.Item>
+            )}
           </Dropdown>
         </form>
       </div>

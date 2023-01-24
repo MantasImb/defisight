@@ -1,5 +1,3 @@
-// TODO: add GoTo button to open a specific page
-
 import React, { useMemo, useContext, useEffect } from "react"
 import { useTable, usePagination } from "react-table"
 
@@ -7,7 +5,7 @@ import { Tooltip, Button, TextInput } from "flowbite-react"
 import { AiFillEye, AiOutlineInfoCircle } from "react-icons/ai"
 import { BiLinkExternal } from "react-icons/bi"
 
-import getAge from "../../utils/getAge"
+import { getAge } from "../../utils/getAge"
 import { shortenAddress } from "../../utils/shortenAddress"
 import {
   openInExplorerNewTab,
@@ -225,7 +223,7 @@ export default function TxTable({ data, chainId }) {
           Page:{" "}
           <input
             className="w-8 h-6 mx-2 border-none rounded-md text-center font-semibold text-purple-700"
-            defaultValue={pageIndex + 1}
+            placeholder={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               gotoPage(page)
