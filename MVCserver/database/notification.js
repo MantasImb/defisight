@@ -1,0 +1,67 @@
+const User = require("../models/User")
+const Notification = require("../models/Notification")
+const { createError } = require("./error")
+
+async function addNotification(userCA, notification) {
+  try {
+    let user = await User.findOne({ userCA })
+    let newNotification = await Notification.create({
+      ...notification,
+    })
+    // remove oldest notification if user has more than 25 notifications
+    if (user.notifications.length >= 25) {
+      await Notification.findOneAndDelete({
+        _id: user.notifications[0],
+      })
+      user.notifications.shift()
+    }
+    user.notifications.push(newNotification._id)
+    user.save()
+    return newNotification._id
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function getNotifications(userCA) {
+  try {
+    let list = await User.where("userCA")
+      .equals(userCA)
+      .populate("notifications")
+    let [{ notifications }] = list
+    if (notifications) {
+      return notifications.reverse()
+    }
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function notificationSeenAll(userCA) {
+  try {
+    let user = await User.findOne({ userCA }).populate("notifications")
+    user.notifications.forEach((notification) => {
+      notification.seen = true
+      notification.save()
+    })
+  } catch (error) {
+    createError(error)
+  }
+}
+
+async function notificationSeen(notificationId) {
+  try {
+    let notification = await Notification.findById(notificationId)
+    notification.seen = true
+    notification.save()
+  } catch (error) {
+    createError(error)
+  }
+}
+
+module.exports = {
+  addNotification,
+  getNotifications,
+  notificationSeenAll,
+  notificationSeen,
+}

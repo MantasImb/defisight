@@ -11,8 +11,8 @@ const devWallets = [
   "0xe88edd63010b5d0b1393ad772f19e282687cbef8",
 ]
 
-const url = "https://server.chainwatcher.app/"
-// const url = "http://localhost:4000/"
+// const url = "https://server.chainwatcher.app/"
+const url = "http://localhost:4000/"
 
 const socket = io(url)
 const { ethereum } = window
@@ -83,9 +83,12 @@ export default function APIProvider({ children }) {
   async function getHistory(accountCA, chainId) {
     // if (!currentAccount) return
     try {
-      let response = await axios.get(`${url}history/${accountCA}/${chainId}`)
-
-      console.log(response)
+      let response = await axios.get(`${url}history`, {
+        params: {
+          trackedCA: accountCA,
+          chainId,
+        },
+      })
       let { data } = response
       console.log(`Fetched ${data.length} transactions`)
       return data
@@ -97,7 +100,11 @@ export default function APIProvider({ children }) {
 
   async function getWallets() {
     try {
-      let response = await axios.get(`${url}trackedwallets/${currentAccount}`)
+      let response = await axios.get(`${url}trackedwallets`, {
+        params: {
+          userCA: currentAccount,
+        },
+      })
       // console.log(response)
       let { data } = response
       // console.log(data)
@@ -110,7 +117,7 @@ export default function APIProvider({ children }) {
   async function postWallet({ tag, address, chainId, highlight }) {
     try {
       address = address.toLowerCase()
-      let response = await axios.post(`${url}postwallet`, {
+      let response = await axios.post(`${url}trackedwallets`, {
         currentAccount,
         tag,
         address,
@@ -125,9 +132,12 @@ export default function APIProvider({ children }) {
 
   async function deleteWallet(id) {
     try {
-      let response = await axios.delete(
-        `${url}deletewallet/${currentAccount}/${id}`
-      )
+      let response = await axios.delete(`${url}trackedwallets`, {
+        params: {
+          userCA: currentAccount,
+          id,
+        },
+      })
       if (response) return true
     } catch (error) {
       console.log(error)
@@ -154,7 +164,7 @@ export default function APIProvider({ children }) {
     }
   }
 
-  // ETHERSCAN API
+  // ETHERSCAN API (not used)
 
   const etherscanProvider = new ethers.providers.EtherscanProvider(
     "goerli",
