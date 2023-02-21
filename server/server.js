@@ -116,37 +116,37 @@ let goerliProvider, mainnetProvider, binanceProvider
 
 let connectedUsers = {}
 
-io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`)
-  // Validates and sends the user their notifications
-  socket.on("validate", async (walletCA) => {
-    connectedUsers[walletCA] = socket.id
-    console.log(`User validated: ${walletCA}`)
-    let notifications = await db.getNotifications(walletCA)
-    if (notifications) {
-      socket.emit("notifications", notifications)
-    }
-  })
+// io.on("connection", (socket) => {
+//   console.log(`User connected: ${socket.id}`)
+//   // Validates and sends the user their notifications
+//   socket.on("validate", async (walletCA) => {
+//     connectedUsers[walletCA] = socket.id
+//     console.log(`User validated: ${walletCA}`)
+//     let notifications = await db.getNotifications(walletCA)
+//     if (notifications) {
+//       socket.emit("notifications", notifications)
+//     }
+//   })
 
-  // Notification status update (seen and seenAll)
-  socket.on("notificationSeen", async (notificationId) => {
-    await db.notificationSeen(notificationId)
-  })
+//   // Notification status update (seen and seenAll)
+//   socket.on("notificationSeen", async (notificationId) => {
+//     await db.notificationSeen(notificationId)
+//   })
 
-  socket.on("notificationsSeenAll", async (walletCA) => {
-    await db.notificationSeenAll(walletCA)
-  })
+//   socket.on("notificationsSeenAll", async (walletCA) => {
+//     await db.notificationSeenAll(walletCA)
+//   })
 
-  // On user disconnect, removes the user from the connectedUsers object
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`)
-    for (let user in connectedUsers) {
-      if (connectedUsers[user] === socket.id) {
-        delete connectedUsers[user]
-      }
-    }
-  })
-})
+//   // On user disconnect, removes the user from the connectedUsers object
+//   socket.on("disconnect", () => {
+//     console.log(`User disconnected: ${socket.id}`)
+//     for (let user in connectedUsers) {
+//       if (connectedUsers[user] === socket.id) {
+//         delete connectedUsers[user]
+//       }
+//     }
+//   })
+// })
 
 // FUNCTIONALITY
 
@@ -241,9 +241,9 @@ io.on("connection", (socket) => {
 // }
 
 // TODO: email functionality
-async function sendEmail() {
-  console.log("sending email")
-}
+// async function sendEmail() {
+//   console.log("sending email")
+// }
 
 // creates a notification object, saves it to the database and sends it to the client, or emails it to the user if the user has an email
 // async function handleNotifications(wallet, chainId, transactions) {
@@ -366,18 +366,18 @@ async function sendEmail() {
 
 // SERVER
 // returns info about the state of the server
-app.get("/", cors(), async (req, res) => {
-  res.json({
-    wallets,
-    mongoose: db.mongoose.connection.readyState,
-    errors: db.errorArray,
-  })
-})
+// app.get("/", cors(), async (req, res) => {
+//   res.json({
+//     wallets,
+//     mongoose: db.mongoose.connection.readyState,
+//     errors: db.errorArray,
+//   })
+// })
 
-app.get("/errors", cors(), async (req, res) => {
-  let errors = await db.fetchErrors()
-  res.json(errors)
-})
+// app.get("/errors", cors(), async (req, res) => {
+//   let errors = await db.fetchErrors()
+//   res.json(errors)
+// })
 
 // returns the history of a requested wallet
 // app.get("/history/:trackedCA/:chainId", cors(), async (req, res) => {

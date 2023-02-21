@@ -35,8 +35,6 @@ export default function APIProvider({ children }) {
 
   async function checkIfWalletIsConnect() {
     try {
-      if (!ethereum) return alert("Please install MetaMask.")
-
       const accounts = await ethereum.request({ method: "eth_accounts" })
       setChainId(window.ethereum.networkVersion)
 

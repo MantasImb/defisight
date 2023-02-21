@@ -233,6 +233,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                 name="chainId"
                 required={true}
                 onChange={handleFormChange}
+                disabled={true}
               >
                 <option value={1}>Ethereum</option>
                 <option value={56}>Binance</option>

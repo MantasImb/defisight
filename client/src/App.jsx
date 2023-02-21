@@ -9,7 +9,9 @@ import { HiCheck, HiX } from "react-icons/hi"
 
 import { Navbar, Sidebar, ThemeSettings } from "./components"
 import { Dashboard, TrackedWallets, WalletInfo } from "./pages"
+import WelcomeModal from "./modals/WelcomeModal"
 import { Toast } from "flowbite-react"
+import { FiSettings } from "react-icons/fi"
 
 import { StateContext } from "./contexts/StateProvider"
 import { APIContext } from "./contexts/APIProvider"
@@ -45,6 +47,7 @@ export default function App() {
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
+      <WelcomeModal isOpen={!currentAccount} connect={connectWallet} />
       {toastState.message.length > 0 && (
         <Toast className="fixed top-5 right-5 z-50 animate-toastIn">
           {toastState.type == "success" ? (
@@ -62,22 +65,21 @@ export default function App() {
       )}
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg overflow-hidden">
-          <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
+          {/* <div className="fixed right-4 bottom-4" style={{ zIndex: "2" }}>
             <button
               type="button"
               className="text-xl md:text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white"
               style={{
-                background: currentAccount ? currentColor : "red",
+                background: currentColor,
                 borderRadius: "50%",
               }}
               onClick={() => {
-                if (!currentAccount) connectWallet()
-                else setThemeSettings(true)
+                setThemeSettings(true)
               }}
             >
-              <SlWallet />
+              <FiSettings />
             </button>
-          </div>
+          </div> */}
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               <Sidebar />
@@ -96,7 +98,7 @@ export default function App() {
               <Navbar />
             </div>
 
-            {/* {themeSettings && <ThemeSettings />} */}
+            {themeSettings && <ThemeSettings />}
             <Routes>
               {/* Dashboard */}
               <Route path="/" element={<TrackedWallets />} />

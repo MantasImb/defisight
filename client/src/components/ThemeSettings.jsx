@@ -22,7 +22,7 @@ export default function ThemeSettings() {
           </button>
         </div>
         <div className="flex-col border-t-1 border-color p-4 ml-4">
-          <p className="font-semibold text-lg">Theme Options</p>
+          {/* <p className="font-semibold text-lg">Theme Options</p>
           <div className="mt-4">
             <input
               type="radio"
@@ -50,7 +50,7 @@ export default function ThemeSettings() {
             <label htmlFor="dark" className="ml-2 text-md cursor-pointer">
               Dark
             </label>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

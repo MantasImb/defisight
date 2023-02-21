@@ -51,9 +51,15 @@ module.exports = {
           "50%": { opacity: 1 },
           "100%": { transform: "translateX(0px)" },
         },
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "50%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
       },
       animation: {
         toastIn: "toastAnimation 1s",
+        fadeIn: "fadeIn 1s",
       },
     },
   },

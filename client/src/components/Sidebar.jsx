@@ -11,6 +11,7 @@ import { RiContactsLine, RiStockLine } from "react-icons/ri"
 import { AiOutlineCalendar, AiOutlineStock } from "react-icons/ai"
 import { FaTelegram, FaTwitter, FaDiscord } from "react-icons/fa"
 import { CiMail } from "react-icons/ci"
+import image from "../assets/logominified-removebg-preview.png"
 
 const links = [
   {
@@ -89,7 +90,7 @@ export default function Sidebar() {
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <SiShopware /> <span>ChainWatcher</span>
+              <img src={image} className="w-12" /> <span>ChainWatcher</span>
             </Link>
 
             <button
