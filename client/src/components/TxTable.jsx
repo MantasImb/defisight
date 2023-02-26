@@ -1,28 +1,28 @@
-import React, { useMemo, useContext, useEffect } from "react"
-import { useTable, usePagination } from "react-table"
+import React, { useMemo, useContext, useEffect } from "react";
+import { useTable, usePagination } from "react-table";
 
-import { Tooltip, Button, TextInput } from "flowbite-react"
-import { AiFillEye, AiOutlineInfoCircle } from "react-icons/ai"
-import { BiLinkExternal } from "react-icons/bi"
+import { Tooltip, Button, TextInput } from "flowbite-react";
+import { AiFillEye, AiOutlineInfoCircle } from "react-icons/ai";
+import { BiLinkExternal } from "react-icons/bi";
 
-import { getAge } from "../../utils/getAge"
-import { shortenAddress } from "../../utils/shortenAddress"
+import { getAge } from "../../utils/getAge";
+import { shortenAddress } from "../../utils/shortenAddress";
 import {
   openInExplorerNewTab,
   openTxInExplorerNewTab,
   openInNewTab,
-} from "../../utils/openInNewTab"
+} from "../../utils/openInNewTab";
 
-import { StateContext } from "../contexts/StateProvider"
+import { StateContext } from "../contexts/StateProvider";
 
 export default function TxTable({ data, chainId }) {
   const { currentColor, currentMode, screenSize, setToastState } =
-    useContext(StateContext)
+    useContext(StateContext);
 
   function AddressCell({ value }) {
-    let string
+    let string;
     if (value) {
-      string = shortenAddress(value)
+      string = shortenAddress(value);
     }
 
     return (
@@ -40,7 +40,7 @@ export default function TxTable({ data, chainId }) {
           </Tooltip>
         )}
       </div>
-    )
+    );
   }
 
   function InspectTooltip({ data }) {
@@ -62,7 +62,7 @@ export default function TxTable({ data, chainId }) {
           Open in explorer <BiLinkExternal className="inline" />
         </a>
       </div>
-    )
+    );
   }
 
   const columns = useMemo(
@@ -104,7 +104,7 @@ export default function TxTable({ data, chainId }) {
         accessor: "method",
         Cell: ({ value }) => (
           <Tooltip className="text-sm" content={value}>
-            <p className="text-left truncate w-28 underline">{value}</p>
+            <p className="w-28 truncate text-left underline">{value}</p>
           </Tooltip>
         ),
       },
@@ -130,9 +130,9 @@ export default function TxTable({ data, chainId }) {
       },
     ],
     []
-  )
+  );
 
-  const dataMemo = useMemo(() => data, [])
+  const dataMemo = useMemo(() => data, []);
 
   const {
     getTableProps,
@@ -153,57 +153,56 @@ export default function TxTable({ data, chainId }) {
     {
       columns,
       data: dataMemo,
+      initialState: { pageSize: 25 },
     },
     usePagination
-  )
+  );
 
-  const { pageIndex } = state
+  const { pageIndex } = state;
 
   useEffect(() => {
-    if (screenSize < 720) setHiddenColumns("timestamp")
-  }, [screenSize])
+    if (screenSize < 540) setHiddenColumns("timestamp");
+  }, [screenSize]);
 
   return (
-    <div className="flex flex-col">
-      <div className="overflow-x-auto md:flex justify-center">
-        <table
-          className="rounded-md bg-purple-700 m-2 text-center text-white shadow"
-          {...getTableProps()}
-        >
-          <thead className="">
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th className="py-1 px-2" {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
+    <div className="h-screen">
+      <table
+        className="my-2 mx-auto block h-3/5 overflow-y-auto rounded-md bg-purple-700 text-center text-white shadow sm:w-fit"
+        {...getTableProps()}
+      >
+        <thead className="">
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th className="py-1 px-2" {...column.getHeaderProps()}>
+                  {column.render("Header")}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody className="bg-gray-50 text-black" {...getTableBodyProps()}>
+          {page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <td
+                    className="border-b-1 border-purple-700 py-1 px-2"
+                    {...cell.getCellProps()}
+                  >
+                    {cell.render("Cell")}
+                  </td>
                 ))}
               </tr>
-            ))}
-          </thead>
-          <tbody className="text-black bg-gray-50" {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td
-                      className="py-1 px-2 border-b-1 border-purple-700"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  ))}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+            );
+          })}
+        </tbody>
+      </table>
       <div className="flex flex-row md:justify-center">
         <Button
           size="sm"
-          className="ml-1  text-white hidden md:block"
+          className="ml-1  hidden text-white md:block"
           color="purple"
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
@@ -219,14 +218,14 @@ export default function TxTable({ data, chainId }) {
         >
           {"<"}
         </Button>
-        <span className="flex text-sm py-1.5 px-3 ml-1 items-center text-center rounded-md text-white bg-purple-700">
+        <span className="ml-1 flex items-center rounded-md bg-purple-700 py-1.5 px-3 text-center text-sm text-white">
           Page:{" "}
           <input
-            className="w-8 h-6 mx-2 border-none rounded-md text-center font-semibold text-purple-700"
+            className="mx-2 h-6 w-8 rounded-md border-none text-center font-semibold text-purple-700"
             placeholder={pageIndex + 1}
             onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
             }}
           />{" "}
           of {pageOptions.length}
@@ -243,7 +242,7 @@ export default function TxTable({ data, chainId }) {
         <Button
           size="sm"
           color="purple"
-          className="ml-1 rounded-md text-white hidden md:block"
+          className="ml-1 hidden rounded-md text-white md:block"
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
         >
@@ -251,5 +250,5 @@ export default function TxTable({ data, chainId }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }

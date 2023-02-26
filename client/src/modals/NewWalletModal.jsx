@@ -1,43 +1,43 @@
-import { Button, Label, Select, TextInput, Spinner } from "flowbite-react"
-import React, { useState } from "react"
-import ReactDOM from "react-dom"
-import { ethers } from "ethers"
-import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai"
-import { BsDot } from "react-icons/bs"
+import { Button, Label, Select, TextInput, Spinner } from "flowbite-react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import { ethers } from "ethers";
+import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { BsDot } from "react-icons/bs";
 
 export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const [formValues, setFormValues] = useState({
     tag: "",
     address: "",
     chainId: 1,
     highlight: "gray",
-  })
+  });
 
   const [formErrors, setFormErrors] = useState({
     tag: "",
     address: "",
-  })
+  });
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleFormChange(event) {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     setFormValues((prev) => {
       return {
         ...prev,
         [name]: value,
-      }
-    })
+      };
+    });
 
     setFormErrors((prev) => {
       return {
         ...prev,
         [name]: "",
-      }
-    })
+      };
+    });
   }
 
   function handleColorClick(value) {
@@ -45,55 +45,69 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
       return {
         ...prev,
         highlight: value,
-      }
-    })
+      };
+    });
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
     setFormErrors({
       tag: "",
       address: "",
-    })
+    });
+    let block = false;
 
     if (formValues.tag === "") {
+      block = true;
       setFormErrors((prev) => {
         return {
           ...prev,
           tag: "Tag is required",
-        }
-      })
+        };
+      });
+    }
+
+    if (formValues.tag.length > 20) {
+      block = true;
+      setFormErrors((prev) => {
+        return {
+          ...prev,
+          tag: "Tag must be less than 20 characters",
+        };
+      });
     }
 
     if (formValues.address === "") {
+      block = true;
       setFormErrors((prev) => {
         return {
           ...prev,
           address: "Address is required",
-        }
-      })
+        };
+      });
     }
 
     // check if address is valid
 
-    const isAddress = ethers.utils.isAddress(formValues.address)
+    const isAddress = ethers.utils.isAddress(formValues.address);
     if (!isAddress) {
+      block = true;
       setFormErrors((prev) => {
         return {
           ...prev,
           address: "Invalid address",
-        }
-      })
+        };
+      });
     }
 
-    if (formErrors.address == "" && formErrors.tag == "") {
-      console.log("submitting")
-      let response = await onSubmit(formValues)
-      if (response) isSubmitting(false)
+    if (!block) {
+      console.log("submitting");
+      let response = await onSubmit(formValues);
+      if (response) isSubmitting(false);
     }
 
-    setIsSubmitting(false)
+    setIsSubmitting(false);
   }
 
   return ReactDOM.createPortal(
@@ -101,18 +115,18 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
       {/* overlay */}
       <div
         onClick={() => onClose()}
-        className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-10"
+        className="fixed inset-0 z-10 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50"
       ></div>
       {/* content */}
-      <div className="fixed flex flex-col overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 border border-purple-700 w-96 shadow-lg rounded-md bg-white z-20">
+      <div className="fixed top-1/2 left-1/2 z-20 flex w-96 -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md border border-purple-700 bg-white p-5 shadow-lg">
         <AiOutlineClose
-          className="ml-auto text-gray-500 rounded-full p-1 hover:bg-light-gray"
+          className="ml-auto rounded-full p-1 text-gray-500 hover:bg-light-gray"
           fontSize={24}
           onClick={() => onClose()}
         />
         <div className="m-2 p-2">
           {" "}
-          <div className="flex flex-col gap-4 text-md md:text-lg">
+          <div className="text-md flex flex-col gap-4 md:text-lg">
             <div>
               <div className="mb-2 block">
                 <Label color="purple" value="Wallet tag:" />
@@ -124,7 +138,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                 color="purple"
                 onChange={handleFormChange}
                 helperText={
-                  <span className="text-red-500 italic">{formErrors.tag}</span>
+                  <span className="italic text-red-500">{formErrors.tag}</span>
                 }
               />
             </div>
@@ -134,7 +148,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
               </div>
               <div className="flex flex-row justify-center">
                 <div
-                  className="mx-1 p-2 rounded-full bg-gray-400"
+                  className="mx-1 rounded-full bg-gray-400 p-2"
                   onClick={() => handleColorClick("gray")}
                 >
                   {formValues.highlight === "gray" ? (
@@ -145,7 +159,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                 </div>
 
                 <div
-                  className="mx-1 p-2 rounded-full bg-orange-400"
+                  className="mx-1 rounded-full bg-orange-400 p-2"
                   onClick={() => handleColorClick("orange")}
                 >
                   {formValues.highlight === "orange" ? (
@@ -155,7 +169,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                   )}
                 </div>
                 <div
-                  className="mx-1 p-2 rounded-full bg-green-400"
+                  className="mx-1 rounded-full bg-green-400 p-2"
                   onClick={() => handleColorClick("green")}
                 >
                   {formValues.highlight === "green" ? (
@@ -165,7 +179,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                   )}
                 </div>
                 <div
-                  className="mx-1 p-2 rounded-full bg-yellow-400"
+                  className="mx-1 rounded-full bg-yellow-400 p-2"
                   onClick={() => handleColorClick("yellow")}
                 >
                   {formValues.highlight === "yellow" ? (
@@ -175,7 +189,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                   )}
                 </div>
                 <div
-                  className="mx-1 p-2 rounded-full bg-red-400"
+                  className="mx-1 rounded-full bg-red-400 p-2"
                   onClick={() => handleColorClick("red")}
                 >
                   {formValues.highlight === "red" ? (
@@ -185,7 +199,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                   )}
                 </div>
                 <div
-                  className="mx-1 p-2 rounded-full bg-blue-400"
+                  className="mx-1 rounded-full bg-blue-400 p-2"
                   onClick={() => handleColorClick("blue")}
                 >
                   {formValues.highlight === "blue" ? (
@@ -195,7 +209,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                   )}
                 </div>
                 <div
-                  className="mx-1 p-2 rounded-full bg-pink-400"
+                  className="mx-1 rounded-full bg-pink-400 p-2"
                   onClick={() => handleColorClick("pink")}
                 >
                   {formValues.highlight === "pink" ? (
@@ -217,7 +231,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                 required={true}
                 color="purple"
                 helperText={
-                  <span className="text-red-500 italic">
+                  <span className="italic text-red-500">
                     {formErrors.address}
                   </span>
                 }
@@ -259,5 +273,5 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
       </div>
     </>,
     document.getElementById("portal")
-  )
+  );
 }

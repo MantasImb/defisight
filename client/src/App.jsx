@@ -2,21 +2,26 @@
 // TODO: Make a welcome modal for new user to add a celebrity wallet/s
 // TODO: disable the add button if wallet is not connected
 
-import React, { useContext, useEffect } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { SlWallet } from "react-icons/sl"
-import { HiCheck, HiX } from "react-icons/hi"
+import React, { useContext, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SlWallet } from "react-icons/sl";
+import { HiCheck, HiX } from "react-icons/hi";
 
-import { Navbar, Sidebar, ThemeSettings } from "./components"
-import { Dashboard, TrackedWallets, WalletInfo } from "./pages"
-import WelcomeModal from "./modals/WelcomeModal"
-import { Toast } from "flowbite-react"
-import { FiSettings } from "react-icons/fi"
+import { Navbar, Sidebar, ThemeSettings } from "./components";
+import {
+  Dashboard,
+  TrackedWallets,
+  WalletInfo,
+  LiveTransactions,
+} from "./pages";
+import WelcomeModal from "./modals/WelcomeModal";
+import { Toast } from "flowbite-react";
+import { FiSettings } from "react-icons/fi";
 
-import { StateContext } from "./contexts/StateProvider"
-import { APIContext } from "./contexts/APIProvider"
+import { StateContext } from "./contexts/StateProvider";
+import { APIContext } from "./contexts/APIProvider";
 
-import "./App.css"
+import "./App.css";
 
 export default function App() {
   const {
@@ -27,23 +32,23 @@ export default function App() {
     currentMode,
     toastState,
     setToastState,
-  } = useContext(StateContext)
+  } = useContext(StateContext);
 
-  const { currentAccount, connectWallet } = useContext(APIContext)
+  const { currentAccount, connectWallet } = useContext(APIContext);
 
   useEffect(() => {
     if (currentAccount) {
       setToastState({
         message: "Wallet connected successfully.",
         type: "success",
-      })
+      });
     } else {
       setToastState({
         message: "Wallet is not connected.",
         type: "error",
-      })
+      });
     }
-  }, [currentAccount])
+  }, [currentAccount]);
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
@@ -64,7 +69,7 @@ export default function App() {
         </Toast>
       )}
       <BrowserRouter>
-        <div className="flex relative dark:bg-main-dark-bg overflow-hidden">
+        <div className="relative flex overflow-hidden dark:bg-main-dark-bg">
           {/* <div className="fixed right-4 bottom-4" style={{ zIndex: "2" }}>
             <button
               type="button"
@@ -81,7 +86,7 @@ export default function App() {
             </button>
           </div> */}
           {activeMenu ? (
-            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+            <div className="sidebar fixed w-72 bg-white dark:bg-secondary-dark-bg ">
               <Sidebar />
             </div>
           ) : (
@@ -90,11 +95,11 @@ export default function App() {
             </div>
           )}
           <div
-            className={`flex flex-col h-screen dark:bg-main-dark-bg bg-main-bg w-full ${
+            className={`flex h-screen w-full flex-col bg-main-bg dark:bg-main-dark-bg ${
               activeMenu ? "md:ml-72" : "flex-2"
             }`}
           >
-            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
+            <div className="navbar fixed w-full bg-main-bg dark:bg-main-dark-bg md:static">
               <Navbar />
             </div>
 
@@ -102,11 +107,12 @@ export default function App() {
             <Routes>
               {/* Dashboard */}
               <Route path="/" element={<TrackedWallets />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              {/* <Route path="/dashboard" element={<Dashboard />} /> */}
 
               {/* Pages */}
 
               <Route path="/tracked-wallets" element={<TrackedWallets />} />
+              <Route path="/live-transactions" element={<LiveTransactions />} />
 
               {/* Apps */}
 
@@ -122,5 +128,5 @@ export default function App() {
         </div>
       </BrowserRouter>
     </div>
-  )
+  );
 }
