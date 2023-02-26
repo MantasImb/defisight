@@ -46,7 +46,8 @@ async function fetchHistory(walletCA, chain, block) {
 
 async function getLatestTimestamp(walletCA, chainId) {
   let history = await fetchHistory(walletCA, chainId)
-  if (history[0].timeStamp) return history[0].timeStamp
+  if (!history[0]?.timeStamp) return 0
+  return history[0].timeStamp
 }
 
 module.exports = { fetchHistory, getLatestTimestamp }

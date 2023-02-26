@@ -8,8 +8,9 @@ async function addNotification(userCA, notification) {
     let newNotification = await Notification.create({
       ...notification,
     })
-    // remove oldest notification if user has more than 25 notifications
-    if (user.notifications.length >= 25) {
+    // remove oldest notification if user has more than 50 notifications
+    // BUG: When two notifications are added at the same time, it errors out
+    if (user.notifications.length >= 50) {
       await Notification.findOneAndDelete({
         _id: user.notifications[0],
       })
