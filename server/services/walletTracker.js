@@ -12,14 +12,23 @@ const { fetchHistory } = require("../external-api/scanners")
 const { connectedUsers } = require("../websocket/notifications")
 const io = require("../websocket/setup")
 
-const { mainnetSocket, goerliSocket, binanceSocket } = require("../config/urls")
+const {
+  mainnetSocket,
+  goerliSocket,
+  binanceSocket,
+  arbitrumSocket,
+  optimismSocket,
+} = require("../config/urls")
 
 const formatFunctionName = require("../utilities/formatFunctionName")
 
+// Could be better performance-wise to use Map with Set for the wallets object
 let wallets = {
   1: [], // mainnet
   56: [], // binance
   5: [], // goerli
+  42161: [], // arbitrum
+  10: [], // optimism
 }
 
 async function getAllWallets() {
@@ -66,6 +75,8 @@ async function getBalances() {
     if (chain === "1") provider = mainnetProvider
     if (chain === "56") provider = binanceProvider
     if (chain === "5") provider = goerliProvider
+    if (chain === "42161") provider = arbitrumProvider
+    if (chain === "10") provider = optimismProvider
     let promises = []
     for (const wallet of wallets[chain]) {
       let promise = provider.getBalance(wallet.walletCA)
@@ -88,20 +99,24 @@ async function getBalances() {
 // this is a workaround for the fact that etherscan does not provide a websocket API
 // then updates the balance in the wallets object and sends the notifications
 async function balanceChangedDelayed(wallet, blockNumber, provider, chain) {
-  const newBalance = await provider.getBalance(wallet.walletCA)
-  // return if the balance has not changed
-  if (newBalance.eq(wallet.balance)) return
-  // update the timestamp of the wallet on the chain. (can be updated in the future for the db to do this automatically)
-  updateWalletTimestamp(wallet.walletCA, chain)
-  setTimeout(async () => {
-    let txs = await fetchHistory(wallet.walletCA, chain, blockNumber)
-    console.log(
-      `Balance for wallet ${wallet.walletCA} has changed on block ${blockNumber}. Fetching transactions.`
-    )
-    handleNotifications(wallet, chain, txs)
-  }, 30 * 1000)
+  try {
+    const newBalance = await provider.getBalance(wallet.walletCA)
+    // return if the balance has not changed
+    if (newBalance.eq(wallet.balance)) return
+    // update the timestamp of the wallet on the chain. (can be updated in the future for the db to do this automatically)
+    updateWalletTimestamp(wallet.walletCA, chain)
+    setTimeout(async () => {
+      let txs = await fetchHistory(wallet.walletCA, chain, blockNumber)
+      console.log(
+        `Balance for wallet ${wallet.walletCA} has changed on block ${blockNumber}. Fetching transactions.`
+      )
+      handleNotifications(wallet, chain, txs)
+    }, 30 * 1000)
 
-  wallet.balance = newBalance
+    wallet.balance = newBalance
+  } catch (error) {
+    createError(error)
+  }
 }
 
 async function handleNotifications(wallet, chainId, transactions) {
@@ -146,6 +161,8 @@ async function main() {
     goerliProvider = new ethers.providers.JsonRpcProvider(goerliSocket)
     mainnetProvider = new ethers.providers.JsonRpcProvider(mainnetSocket)
     binanceProvider = new ethers.providers.JsonRpcProvider(binanceSocket)
+    arbitrumProvider = new ethers.providers.JsonRpcProvider(arbitrumSocket)
+    optimismProvider = new ethers.providers.JsonRpcProvider(optimismSocket)
 
     await getAllWallets()
     await getBalances()
@@ -156,6 +173,8 @@ async function main() {
       if (chain === "1") provider = mainnetProvider
       if (chain === "56") provider = binanceProvider
       if (chain === "5") provider = goerliProvider
+      if (chain === "42161") provider = arbitrumProvider
+      if (chain === "10") provider = optimismProvider
       provider.on("block", (blockNumber) => {
         for (const wallet of wallets[chain]) {
           balanceChangedDelayed(wallet, blockNumber, provider, chain)

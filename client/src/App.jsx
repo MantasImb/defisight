@@ -1,6 +1,5 @@
 // TODO: Make a dashboard page
 // TODO: Make a welcome modal for new user to add a celebrity wallet/s
-// TODO: disable the add button if wallet is not connected
 
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

@@ -56,6 +56,8 @@ async function addTrackedWallet(req, res) {
       if (body.chainId == "1") provider = mainnetProvider
       if (body.chainId == "56") provider = binanceProvider
       if (body.chainId == "5") provider = goerliProvider
+      if (body.chainId == "42161") provider = arbitrumProvider
+      if (body.chainId == "10") provider = optimismProvider
 
       let balance = await provider.getBalance(body.address)
 

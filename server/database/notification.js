@@ -9,13 +9,13 @@ async function addNotification(userCA, notification) {
       ...notification,
     })
     // remove oldest notification if user has more than 50 notifications
-    // BUG: When two notifications are added at the same time, it errors out
-    if (user.notifications.length >= 50) {
-      await Notification.findOneAndDelete({
-        _id: user.notifications[0],
-      })
-      user.notifications.shift()
-    }
+    // BUG: When two notifications are added on the same block, it errors out
+    // if (user.notifications.length >= 50) {
+    //   await Notification.findOneAndDelete({
+    //     _id: user.notifications[0],
+    //   })
+    //   user.notifications.shift()
+    // }
     user.notifications.push(newNotification._id)
     user.save()
     return newNotification._id

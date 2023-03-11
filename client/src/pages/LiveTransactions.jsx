@@ -5,10 +5,13 @@ import React, { useEffect, useContext, useState } from "react";
 
 import { useTable } from "react-table";
 
-import { Dropdown, Tooltip, Button } from "flowbite-react";
+import { Dropdown, Tooltip, Button, Card } from "flowbite-react";
 import { RiNotification3Line } from "react-icons/ri";
 import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
 import { SiEthereum } from "react-icons/si";
+
+import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
+import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
 
 import { APIContext } from "../contexts/APIProvider";
 import { StateContext } from "../contexts/StateProvider";
@@ -160,6 +163,12 @@ export default function LiveTransactions() {
             <p>{(value.value / 10 ** 18).toString().slice(0, 5)}</p>
             {value.chainId == 1 && <SiEthereum className="mx-1 self-center" />}
             {value.chainId == 56 && <SiBinance className="mx-1 self-center" />}
+            {value.chainId == 42161 && (
+              <ArbitrumLogo className="mx-1 h-5 w-5 self-center" />
+            )}
+            {value.chainId == 10 && (
+              <OptimismLogo className="mx-1 h-5 w-5 self-center" />
+            )}
             {value.chainId == 5 && <p className="mx-1 self-center">GT</p>}
           </div>
         ),
@@ -207,53 +216,66 @@ export default function LiveTransactions() {
           ✓ <span className="underline">Mark all as seen.</span>
         </p>
       </div>
-      <table
-        className="mx-auto block h-3/5 w-full overflow-auto rounded-md shadow-md sm:w-fit"
-        {...getTableProps()}
-      >
-        <thead className="border-b-1 border-b-purple-600">
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  className="p-1 text-center text-sm font-thin text-purple-600"
-                  {...column.getHeaderProps()}
-                >
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-
-            return (
-              <tr
-                className={
-                  !row.original.seen
-                    ? "border-l-4 border-purple-600 hover:bg-gray-100"
-                    : "bg-slate-50 hover:bg-gray-100"
-                }
-                {...row.getRowProps()}
-              >
-                {/* <div className={}/> */}
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      className="border-b-1 p-1 md:px-2 md:py-3 md:text-lg"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  );
-                })}
+      {notifications.length > 0 && (
+        <table
+          className="mx-auto block h-3/5 w-full overflow-auto rounded-md shadow-md sm:w-fit"
+          {...getTableProps()}
+        >
+          <thead className="border-b-1 border-b-purple-600">
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    className="p-1 text-center text-sm font-thin text-purple-600"
+                    {...column.getHeaderProps()}
+                  >
+                    {column.render("Header")}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+
+              return (
+                <tr
+                  className={
+                    !row.original.seen
+                      ? "border-l-4 border-purple-600 hover:bg-gray-100"
+                      : "bg-slate-50 hover:bg-gray-100"
+                  }
+                  {...row.getRowProps()}
+                >
+                  {/* <div className={}/> */}
+                  {row.cells.map((cell) => {
+                    return (
+                      <td
+                        className="border-b-1 p-1 md:px-2 md:py-3 md:text-lg"
+                        {...cell.getCellProps()}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+      {notifications.length === 0 && (
+        <Card>
+          <h5 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            No transactions to show.
+          </h5>
+          <p className="text-center font-normal text-gray-700 dark:text-gray-400">
+            Did you add a wallet? <br />
+            You can add wallets in the Tracked Wallets tab.
+          </p>
+        </Card>
+      )}
     </div>
   );
 }
