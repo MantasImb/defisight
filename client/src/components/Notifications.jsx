@@ -117,7 +117,9 @@ export default function Notifications() {
               >
                 {notification.tag}
               </p>
-              <p className="pl-2 underline">{notification.method}</p>
+              <p className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap pl-2 underline">
+                {notification.method}
+              </p>
               {notification.direction === "in" ? (
                 <BsArrowLeftShort className="mr-2 text-2xl" />
               ) : (

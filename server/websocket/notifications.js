@@ -2,6 +2,7 @@ const {
   getNotifications,
   notificationSeen,
   notificationSeenAll,
+  notificationDeleteAll,
 } = require("../database/notification")
 
 let connectedUsers = {}
@@ -25,6 +26,10 @@ function handleSocketConnection(socket) {
 
   socket.on("notificationsSeenAll", async (walletCA) => {
     await notificationSeenAll(walletCA)
+  })
+
+  socket.on("notificationsDeleteAll", async (walletCA) => {
+    await notificationDeleteAll(walletCA)
   })
 
   // On user disconnect, removes the user from the connectedUsers object

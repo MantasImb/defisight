@@ -214,10 +214,10 @@ export default function WalletsTable({ data, setData }) {
 
   return (
     <table
-      className="m-2 self-center rounded-md bg-purple-700 text-center text-white shadow"
+      className="mx-auto block w-full overflow-auto rounded-md bg-purple-600 text-white shadow-md sm:w-fit"
       {...getTableProps()}
     >
-      <thead className="">
+      <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (

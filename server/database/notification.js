@@ -60,9 +60,24 @@ async function notificationSeen(notificationId) {
   }
 }
 
+// delete all user notifications
+async function notificationDeleteAll(userCA) {
+  try {
+    const user = await User.findOne({ userCA }).populate("notifications")
+    user.notifications.forEach(async (notificationId) => {
+      await Notification.findByIdAndDelete(notificationId)
+    })
+    user.notifications = []
+    user.save()
+  } catch (error) {
+    createError(error)
+  }
+}
+
 module.exports = {
   addNotification,
   getNotifications,
   notificationSeenAll,
   notificationSeen,
+  notificationDeleteAll,
 }

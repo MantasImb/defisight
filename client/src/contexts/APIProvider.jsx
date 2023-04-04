@@ -172,6 +172,15 @@ export default function APIProvider({ children }) {
     }
   }
 
+  async function deleteAllNotifications() {
+    try {
+      socket.emit("notificationsDeleteAll", currentAccount);
+      setNotifications([]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // ETHERSCAN API (not used)
 
   const etherscanProvider = new ethers.providers.EtherscanProvider(
@@ -256,6 +265,7 @@ export default function APIProvider({ children }) {
         unseenNotifications,
         markNotificationAsSeen,
         markAllNotificationsAsSeen,
+        deleteAllNotifications,
         devWallets,
       }}
     >

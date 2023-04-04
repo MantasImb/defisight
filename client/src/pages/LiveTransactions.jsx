@@ -30,9 +30,9 @@ export default function LiveTransactions() {
   const {
     notifications,
     setNotifications,
-    unseenNotifications,
     markNotificationAsSeen,
     markAllNotificationsAsSeen,
+    deleteAllNotifications,
   } = useContext(APIContext);
   const { currentColor } = useContext(StateContext);
 
@@ -208,13 +208,22 @@ export default function LiveTransactions() {
     <div className="m-2 mt-14 h-screen rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
       <div className="flex flex-col justify-between sm:flex-row">
         <Header category="Main" title="Live Transactions" />
-        <p
-          style={{ color: currentColor }}
-          className="cursor-pointer self-center italic"
-          onClick={handleAllSeenClick}
-        >
-          ✓ <span className="underline">Mark all as seen.</span>
-        </p>
+        <div className="flex items-center gap-2">
+          <p
+            style={{ color: currentColor }}
+            className="cursor-pointer italic"
+            onClick={handleAllSeenClick}
+          >
+            ✓ <span className="underline">Mark all as seen.</span>
+          </p>
+          <p className="text-transparent/50">|</p>
+          <p
+            className="cursor-pointer italic text-red-600"
+            onClick={deleteAllNotifications}
+          >
+            <span className="underline">Clear all.</span>
+          </p>
+        </div>
       </div>
       {notifications.length > 0 && (
         <table

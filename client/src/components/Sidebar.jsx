@@ -8,10 +8,12 @@ import { FiShoppingBag } from "react-icons/fi";
 import { IoMdContacts } from "react-icons/io";
 import { RiContactsLine, RiStockLine } from "react-icons/ri";
 import { AiOutlineCalendar, AiOutlineStock } from "react-icons/ai";
-import { FaTelegram, FaTwitter, FaDiscord } from "react-icons/fa";
+import { FaTelegram, FaTwitter } from "react-icons/fa";
+import { SiMedium } from "react-icons/si";
 import { TbRadar2 } from "react-icons/tb";
 import { CiMail } from "react-icons/ci";
 import image from "../assets/logominified-removebg-preview.png";
+import { openInNewTab } from "../../utils/openInNewTab";
 
 const links = [
   {
@@ -151,21 +153,29 @@ export default function Sidebar() {
               <SocialButton
                 color={currentColor}
                 icon={<FaTwitter />}
-                customFunc={() => {}}
+                customFunc={() => {
+                  openInNewTab("https://twitter.com/ChainWatcherApp");
+                }}
               />
               <SocialButton
                 color={currentColor}
                 icon={<FaTelegram />}
-                customFunc={() => {}}
+                customFunc={() => {
+                  openInNewTab("https://t.me/chainwatcher");
+                }}
               />
               <SocialButton
                 color={currentColor}
-                icon={<FaDiscord />}
-                customFunc={() => {}}
+                icon={<SiMedium />}
+                customFunc={() => {
+                  openInNewTab("https://medium.com/@chainwatcher");
+                }}
               />
             </div>
           </div>
-          <span className="text-xs font-thin text-slate-500">v1.1</span>
+          <span className="absolute bottom-1 left-1 text-xs font-thin text-slate-500">
+            v1.3
+          </span>
         </>
       )}
     </div>
