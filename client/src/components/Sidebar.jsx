@@ -12,6 +12,7 @@ import { FaTelegram, FaTwitter } from "react-icons/fa";
 import { SiMedium } from "react-icons/si";
 import { TbRadar2 } from "react-icons/tb";
 import { CiMail } from "react-icons/ci";
+import { GiToken } from "react-icons/gi";
 import image from "../assets/logominified-removebg-preview.png";
 import { openInNewTab } from "../../utils/openInNewTab";
 
@@ -117,6 +118,20 @@ export default function Sidebar() {
           </div>
           <div className="flex h-[95%] flex-col">
             <div className="mt-10">
+              <NavLink
+                to={`/token-info`}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive ? currentColor : "",
+                })}
+                className={({ isActive }) =>
+                  isActive ? activeLink : normalLink
+                }
+              >
+                <GiToken className="animate-pulse text-lg text-red-500" />
+                <span className="animate-pulse text-lg capitalize text-red-500 underline underline-offset-2">
+                  Our token
+                </span>
+              </NavLink>
               {links.map((item) => (
                 <div key={item.title}>
                   <p className="m-3 mt-4 uppercase text-gray-400">

@@ -12,6 +12,7 @@ import {
   TrackedWallets,
   WalletInfo,
   LiveTransactions,
+  TokenInfo,
 } from "./pages";
 import WelcomeModal from "./modals/WelcomeModal";
 import { Toast } from "flowbite-react";
@@ -110,6 +111,7 @@ export default function App() {
 
               {/* Pages */}
 
+              <Route path="/token-info" element={<TokenInfo />} />
               <Route path="/tracked-wallets" element={<TrackedWallets />} />
               <Route path="/live-transactions" element={<LiveTransactions />} />
 

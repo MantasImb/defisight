@@ -1,18 +1,21 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { Button } from "flowbite-react"
-import image from "../assets/welcome.png"
+import { Button } from "flowbite-react";
+import image from "../assets/welcome.png";
+import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
 
 function WelcomeModal({ isOpen, connect }) {
-  if (!isOpen) return null
+  if (!isOpen) return null;
+
+  const [copied, setCopied] = React.useState(false);
 
   return ReactDOM.createPortal(
     <>
       {/* overlay */}
-      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-10 animate-fadeIn"></div>
+      <div className="fixed inset-0 z-10 h-full w-full animate-fadeIn overflow-y-auto bg-gray-600 bg-opacity-50"></div>
       {/* content */}
-      <div className="fixed flex flex-col overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-purple-700 shadow-lg rounded-md bg-white z-20 animate-fadeIn">
+      <div className="fixed top-1/2 left-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 animate-fadeIn flex-col overflow-hidden rounded-md border border-purple-700 bg-white shadow-lg">
         {/* put content of the modal in this div below */}
         <img src={image} />
         <div className="m-2 p-2 text-center">
@@ -32,6 +35,35 @@ function WelcomeModal({ isOpen, connect }) {
             Connect your wallet and start your journey towards the future of
             finance.
           </p>
+          <a
+            href="https://dexscreener.com/ethereum/0xed5ef2c33d589debd4845efa6944c508bd03647d"
+            className="text-lg text-purple-600"
+          >
+            Our token is <span className="italic">LIVE.</span>{" "}
+            <span className=" underline underline-offset-1">
+              Click here to be redirected.
+            </span>
+          </a>
+          <div className="flex items-center justify-center gap-3">
+            <p className="animate-pulse text-lg italic text-black">
+              0xec4a2eC33Be08D3f366013Cf64c4774AB0E06a30
+            </p>
+            <div
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  "0xec4a2eC33Be08D3f366013Cf64c4774AB0E06a30"
+                );
+                setCopied(true);
+              }}
+            >
+              {" "}
+              {copied ? (
+                <AiOutlineCheck className="rounded-lg border-2 border-purple-600 p-1 text-3xl text-purple-600 hover:cursor-pointer" />
+              ) : (
+                <AiOutlineCopy className="rounded-lg border-2 border-purple-600 p-1 text-3xl text-purple-600 hover:cursor-pointer" />
+              )}
+            </div>
+          </div>
         </div>
 
         <Button
@@ -45,7 +77,7 @@ function WelcomeModal({ isOpen, connect }) {
       </div>
     </>,
     document.getElementById("portal")
-  )
+  );
 }
 
-export default WelcomeModal
+export default WelcomeModal;
