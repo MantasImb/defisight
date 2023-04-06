@@ -52,7 +52,7 @@ export default function App() {
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <WelcomeModal isOpen={!currentAccount} connect={connectWallet} />
+      {/* <WelcomeModal isOpen={!currentAccount} connect={connectWallet} /> */}
       {toastState.message.length > 0 && (
         <Toast className="fixed top-5 right-5 z-50 animate-toastIn">
           {toastState.type == "success" ? (
@@ -70,21 +70,21 @@ export default function App() {
       )}
       <BrowserRouter>
         <div className="relative flex overflow-hidden dark:bg-main-dark-bg">
-          {/* <div className="fixed right-4 bottom-4" style={{ zIndex: "2" }}>
+          <div className="fixed right-4 bottom-4" style={{ zIndex: "2" }}>
             <button
               type="button"
-              className="text-xl md:text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white"
+              className="p-3 text-xl text-white hover:bg-light-gray hover:drop-shadow-xl md:text-3xl"
               style={{
-                background: currentColor,
+                background: currentAccount ? currentColor : "red",
                 borderRadius: "50%",
               }}
               onClick={() => {
-                setThemeSettings(true)
+                connectWallet();
               }}
             >
-              <FiSettings />
+              <SlWallet />
             </button>
-          </div> */}
+          </div>
           {activeMenu ? (
             <div className="sidebar fixed w-72 bg-white dark:bg-secondary-dark-bg ">
               <Sidebar />

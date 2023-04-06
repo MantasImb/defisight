@@ -6,11 +6,15 @@ import { BiBookAdd } from "react-icons/bi";
 import { Header, WalletsTable } from "../components";
 import NewWalletModal from "../modals/NewWalletModal";
 
+// import { toast } from "react-toastify";
+
+import { StateContext } from "../contexts/StateProvider";
 import { APIContext } from "../contexts/APIProvider";
 
 export default function TrackedWallets() {
   const { currentAccount, getWallets, postWallet, devWallets } =
     useContext(APIContext);
+  const { setToastState } = useContext(StateContext);
   const [formIsOpen, setFormIsOpen] = useState(false);
 
   const [wallets, setWallets] = useState([]);
@@ -43,7 +47,14 @@ export default function TrackedWallets() {
         <div className="flex flex-row">
           <Button
             className="mr-2 self-center"
-            onClick={() => setFormIsOpen(true)}
+            onClick={() => {
+              if (!currentAccount)
+                return setToastState({
+                  message: "Please connect your wallet to add a new address",
+                  type: "error",
+                });
+              setFormIsOpen(true);
+            }}
             color={"purple"}
             size="md"
           >

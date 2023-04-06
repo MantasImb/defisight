@@ -189,7 +189,7 @@ export default function Sidebar() {
             </div>
           </div>
           <span className="absolute bottom-1 left-1 text-xs font-thin text-slate-500">
-            v1.3
+            v1.4
           </span>
         </>
       )}

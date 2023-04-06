@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export default function Header({ category, title }) {
   return (
@@ -8,5 +8,5 @@ export default function Header({ category, title }) {
         {title}
       </p>
     </div>
-  )
+  );
 }
