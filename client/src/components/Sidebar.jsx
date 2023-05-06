@@ -105,7 +105,7 @@ export default function Sidebar() {
               onClick={handleCloseSideBar}
               className="ml-3 mt-4 flex items-center gap-3 text-xl font-extrabold tracking-tight text-slate-900 dark:text-white"
             >
-              <img src={image} className="w-12" /> <span>ChainWatcher</span>
+              <img src={image} className="w-12" /> <span>BlockSight</span>
             </Link>
 
             <button
