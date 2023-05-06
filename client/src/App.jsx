@@ -14,9 +14,7 @@ import {
   LiveTransactions,
   TokenInfo,
 } from "./pages";
-import WelcomeModal from "./modals/WelcomeModal";
 import { Toast } from "flowbite-react";
-import { FiSettings } from "react-icons/fi";
 
 import { StateContext } from "./contexts/StateProvider";
 import { APIContext } from "./contexts/APIProvider";
