@@ -11,7 +11,7 @@ const devWallets = [
   "0xe88edd63010b5d0b1393ad772f19e282687cbef8",
 ];
 
-const url = "https://server.chainwatcher.app/";
+const url = "https://server.scouterai.vip/";
 // const url = "http://localhost:4000/";
 
 const socket = io(url);
@@ -30,7 +30,7 @@ export default function APIProvider({ children }) {
     "https://bsc-dataseed.binance.org/"
   );
   const goerliProvider = ethers.getDefaultProvider(
-    "https://rpc.goerli.mudit.blog"
+    "https://rpc.ankr.com/eth_goerli"
   );
   const optimismProvider = ethers.getDefaultProvider(
     "https://mainnet.optimism.io"
@@ -38,6 +38,7 @@ export default function APIProvider({ children }) {
   const arbitrumProvider = ethers.getDefaultProvider(
     "https://arb1.arbitrum.io/rpc"
   );
+  const blastProvider = ethers.getDefaultProvider("https://rpc.ankr.com/blast");
 
   async function checkIfWalletIsConnect() {
     try {
@@ -77,6 +78,7 @@ export default function APIProvider({ children }) {
     if (chainId == 5) provider = goerliProvider;
     if (chainId == 10) provider = optimismProvider;
     if (chainId == 42161) provider = arbitrumProvider;
+    if (chainId == 81457) provider = blastProvider;
     try {
       let balance = await provider.getBalance(walletCA);
       return ethers.utils.formatEther(balance);
@@ -196,7 +198,7 @@ export default function APIProvider({ children }) {
   // Desktop Notifications
 
   function showNotification(notification) {
-    new Notification("ChainWatcher.app", {
+    new Notification("ScouterAI.vip", {
       body: `Transaction detected on ${notification.tag}`,
     });
   }

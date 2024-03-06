@@ -31,9 +31,10 @@ export default function TxTable({ data, chainId }) {
           <Tooltip content={value}>
             <Button
               outline={true}
-              color="purple"
+              color="primary"
               size="sm"
-              onClick={() => openInExplorerNewTab(value)}
+              onClick={() => openInExplorerNewTab(value, chainId)}
+              className="bg-[#ff9922] hover:bg-[#ff9700]"
             >
               {string}
             </Button>
@@ -77,8 +78,8 @@ export default function TxTable({ data, chainId }) {
             trigger="click"
           >
             <Button
-              className="mr-2"
-              color={value.bonus.isError == 0 ? "purple" : "failure"}
+              className="mr-2 bg-[#ff9922] hover:bg-[#ff9700]"
+              color={value.bonus.isError == 0 ? "primary" : "failure"}
               size="xs"
             >
               <AiFillEye className="text-white" />
@@ -167,7 +168,7 @@ export default function TxTable({ data, chainId }) {
   return (
     <div className="h-screen">
       <table
-        className="my-2 mx-auto block h-3/5 overflow-y-auto rounded-md bg-purple-700 text-center text-white shadow sm:w-fit"
+        className="my-2 mx-auto block h-3/5 overflow-y-auto rounded-md bg-[#ff9922] text-center text-white shadow sm:w-fit"
         {...getTableProps()}
       >
         <thead className="">
@@ -188,7 +189,7 @@ export default function TxTable({ data, chainId }) {
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <td
-                    className="border-b-1 border-purple-700 py-1 px-2"
+                    className="border-b-1 border-[#ff9922] py-1 px-2"
                     {...cell.getCellProps()}
                   >
                     {cell.render("Cell")}
@@ -202,8 +203,8 @@ export default function TxTable({ data, chainId }) {
       <div className="flex flex-row md:justify-center">
         <Button
           size="sm"
-          className="ml-1  hidden text-white md:block"
-          color="purple"
+          className="ml-1 hidden bg-[#ff9922] text-white hover:bg-[#ff9700] md:block"
+          color="primary"
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
         >
@@ -211,17 +212,17 @@ export default function TxTable({ data, chainId }) {
         </Button>
         <Button
           size="sm"
-          className="ml-1  text-white"
-          color="purple"
+          className="ml-1 bg-[#ff9922] text-white hover:bg-[#ff9700]"
+          color="primary"
           onClick={previousPage}
           disabled={!canPreviousPage}
         >
           {"<"}
         </Button>
-        <span className="ml-1 flex items-center rounded-md bg-purple-700 py-1.5 px-3 text-center text-sm text-white">
+        <span className="ml-1 flex items-center rounded-md bg-[#ff9922] py-1.5 px-3 text-center text-sm text-white">
           Page:{" "}
           <input
-            className="mx-2 h-6 w-8 rounded-md border-none text-center font-semibold text-purple-700"
+            className="mx-2 h-6 w-8 rounded-md border-none text-center font-semibold text-[#ff9922]"
             placeholder={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
@@ -232,8 +233,8 @@ export default function TxTable({ data, chainId }) {
         </span>
         <Button
           size="sm"
-          color="purple"
-          className="ml-1 rounded-md text-white"
+          color="primary"
+          className="ml-1 rounded-md bg-[#ff9922] text-white hover:bg-[#ff9700]"
           onClick={nextPage}
           disabled={!canNextPage}
         >
@@ -241,8 +242,8 @@ export default function TxTable({ data, chainId }) {
         </Button>
         <Button
           size="sm"
-          color="purple"
-          className="ml-1 hidden rounded-md text-white md:block"
+          color="primary"
+          className="ml-1 hidden rounded-md bg-[#ff9922] text-white hover:bg-[#ff9700] md:block"
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
         >

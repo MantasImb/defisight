@@ -71,8 +71,8 @@ export default function LiveTransactions() {
         Cell: ({ value }) => (
           <>
             <Button
-              className="mr-2"
-              color={"purple"}
+              className="mr-2 bg-[#ff9922] hover:bg-[#ff9700]"
+              color={"primary"}
               size="xs"
               onClick={() => handleNotificationClick(value)}
             >
@@ -137,7 +137,8 @@ export default function LiveTransactions() {
         Cell: ({ value }) => (
           <Button
             outline={true}
-            color="purple"
+            color="primary"
+            className="bg-[#ff9922] hover:bg-[#ff9700]"
             size="xs"
             onClick={(e) => {
               let address = value.direction === "in" ? value.from : value.to;
@@ -230,12 +231,12 @@ export default function LiveTransactions() {
           className="mx-auto block h-3/5 w-full overflow-auto rounded-md shadow-md sm:w-fit"
           {...getTableProps()}
         >
-          <thead className="border-b-1 border-b-purple-600">
+          <thead className="border-b-1 border-b-[#ff9922]">
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th
-                    className="p-1 text-center text-sm font-thin text-purple-600"
+                    className="p-1 text-center text-sm font-thin text-[#ff9922]"
                     {...column.getHeaderProps()}
                   >
                     {column.render("Header")}
@@ -252,7 +253,7 @@ export default function LiveTransactions() {
                 <tr
                   className={
                     !row.original.seen
-                      ? "border-l-4 border-purple-600 hover:bg-gray-100"
+                      ? "border-l-4 border-[#ff9922] hover:bg-gray-100"
                       : "bg-slate-50 hover:bg-gray-100"
                   }
                   {...row.getRowProps()}

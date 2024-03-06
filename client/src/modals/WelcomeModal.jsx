@@ -19,15 +19,13 @@ function WelcomeModal({ isOpen, connect }) {
         {/* put content of the modal in this div below */}
         <img src={image} />
         <div className="m-2 p-2 text-center">
-          <h1 className="text-2xl font-bold">
-            Welcome to the ChainWatcher.app!
-          </h1>
+          <h1 className="text-2xl font-bold">Welcome to the scouterai.vip!</h1>
           <p className="text-gray-500">
             Join us on the cutting edge of blockchain technology as we
             continuously evolve and improve our platform.
           </p>
           <p className="text-gray-500">
-            ChainWatcher is a work-in-progress, constantly striving to bring you
+            scouterai is a work-in-progress, constantly striving to bring you
             the best tools for monitoring and profiting from the ICO's of the
             crypto world.
           </p>

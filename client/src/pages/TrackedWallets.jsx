@@ -46,7 +46,7 @@ export default function TrackedWallets() {
         <Header category="Tables" title="Tracked Wallets" />
         <div className="flex flex-row">
           <Button
-            className="mr-2 self-center"
+            className="mr-2 self-center bg-[#ff9922] hover:bg-[#ff9700]"
             onClick={() => {
               if (!currentAccount)
                 return setToastState({
@@ -55,7 +55,7 @@ export default function TrackedWallets() {
                 });
               setFormIsOpen(true);
             }}
-            color={"purple"}
+            color={"primary"}
             size="md"
           >
             <BiBookAdd className="mr-2 text-lg" />

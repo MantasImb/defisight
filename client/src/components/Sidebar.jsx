@@ -8,6 +8,9 @@ import { FiShoppingBag } from "react-icons/fi";
 import { IoMdContacts } from "react-icons/io";
 import { RiContactsLine, RiStockLine } from "react-icons/ri";
 import { AiOutlineCalendar, AiOutlineStock } from "react-icons/ai";
+import { FaInfo } from "react-icons/fa";
+import { IoMdPaper } from "react-icons/io";
+import { RiGuideLine } from "react-icons/ri";
 import { FaTelegram, FaTwitter } from "react-icons/fa";
 import { SiMedium } from "react-icons/si";
 import { TbRadar2 } from "react-icons/tb";
@@ -21,8 +24,8 @@ const links = [
     title: "Main",
     links: [
       // {
-      //   name: "Dashboard",
-      //   link: "dashboard",
+      //   name: "Home",
+      //   link: "home",
       //   icon: <RiDashboardLine />,
       //   available: true,
       // },
@@ -47,22 +50,33 @@ const links = [
     ],
   },
   {
-    title: "Coming soon",
+    title: "Project",
     links: [
-      // {
-      //   name: "Token Chart",
-      //   link: "token-info",
-      //   icon: <RiStockLine />,
-      //   available: true,
-      // },
-      // {
-      //   name: "ICO Calendar",
-      //   link: "calendar",
-      //   icon: <AiOutlineCalendar />,
-      //   available: true,
-      // },
+      {
+        name: "About",
+        link: "about",
+        icon: <FaInfo />,
+        available: true,
+      },
     ],
   },
+  // {
+  //   title: "Coming soon",
+  //   links: [
+  //     // {
+  //     //   name: "Token Chart",
+  //     //   link: "token-info",
+  //     //   icon: <RiStockLine />,
+  //     //   available: true,
+  //     // },
+  //     // {
+  //     //   name: "ICO Calendar",
+  //     //   link: "calendar",
+  //     //   icon: <AiOutlineCalendar />,
+  //     //   available: true,
+  //     // },
+  //   ],
+  // },
 ];
 
 function SocialButton({ customFunc, icon, color }) {
@@ -105,7 +119,7 @@ export default function Sidebar() {
               onClick={handleCloseSideBar}
               className="ml-3 mt-4 flex items-center gap-3 text-xl font-extrabold tracking-tight text-slate-900 dark:text-white"
             >
-              <img src={image} className="w-12" /> <span>BlockSight</span>
+              <img src={image} className="w-12" /> <span>ScouterAI</span>
             </Link>
 
             <button
@@ -124,11 +138,13 @@ export default function Sidebar() {
                   backgroundColor: isActive ? currentColor : "",
                 })}
                 className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
+                  isActive
+                    ? activeLink
+                    : "text-md m-2 flex items-center gap-5 rounded-lg border border-[#ff9822] pl-4 pt-3 pb-2.5 text-gray-700 hover:bg-light-gray dark:text-gray-200 dark:hover:text-black"
                 }
               >
-                <GiToken className="animate-pulse text-lg text-red-500" />
-                <span className="animate-pulse text-lg capitalize text-red-500 underline underline-offset-2">
+                <GiToken className="animate-pulse text-lg text-black" />
+                <span className="animate-pulse text-lg capitalize text-black underline underline-offset-2">
                   Our token
                 </span>
               </NavLink>
@@ -155,41 +171,45 @@ export default function Sidebar() {
                   ))}
                 </div>
               ))}
-              <div className={`${normalLink} cursor-not-allowed`}>
-                <RiStockLine />
-                <span>Token Charts</span>
-              </div>
-              <div className={`${normalLink} cursor-not-allowed`}>
-                <AiOutlineCalendar />
-                <span>ICO Calendar</span>
-              </div>
+              <a
+                href="https://scouterai.gitbook.io/whitepaper/"
+                className={`${normalLink} cursor-pointer`}
+                target="_blank"
+              >
+                <IoMdPaper />
+                <span>Whitepaper</span>
+              </a>
+              {/* <a href="" className={`${normalLink} cursor-pointer`}>
+                <RiGuideLine />
+                <span>Documentation</span>
+              </a> */}
             </div>
             <div className="mt-auto flex justify-around">
               <SocialButton
                 color={currentColor}
                 icon={<FaTwitter />}
                 customFunc={() => {
-                  openInNewTab("https://twitter.com/ChainWatcherApp");
+                  openInNewTab("https://twitter.com/scouterai");
                 }}
               />
               <SocialButton
                 color={currentColor}
                 icon={<FaTelegram />}
                 customFunc={() => {
-                  openInNewTab("https://t.me/chainwatcher");
+                  openInNewTab("https://t.me/scouterai");
                 }}
               />
               <SocialButton
                 color={currentColor}
                 icon={<SiMedium />}
                 customFunc={() => {
-                  openInNewTab("https://medium.com/@chainwatcher");
+                  openInNewTab("https://medium.com/@ScouterAI");
                 }}
               />
             </div>
           </div>
           <span className="absolute bottom-1 left-1 text-xs font-thin text-slate-500">
-            v1.4
+            v1.5
           </span>
         </>
       )}

@@ -12,6 +12,8 @@ export function openInExplorerNewTab(ca, chainId) {
     url = `https://explorer.arbitrum.io/#/address/${ca}`;
   } else if (chainId == 10) {
     url = `https://optimistic.etherscan.io/address/${ca}`;
+  } else if (chainId == 81457) {
+    url = `https://blastscan.io/address/${ca}`;
   }
   window.open(url, "_blank").focus();
 }

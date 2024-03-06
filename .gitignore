@@ -133,3 +133,4 @@ dist
 
 # mine
 server-deprecated/
+pnpm-lock.yaml

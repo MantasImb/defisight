@@ -118,7 +118,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
         className="fixed inset-0 z-10 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50"
       ></div>
       {/* content */}
-      <div className="fixed top-1/2 left-1/2 z-20 flex w-96 -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md border border-purple-700 bg-white p-5 shadow-lg">
+      <div className="fixed top-1/2 left-1/2 z-20 flex w-96 -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md border border-[#ff9922] bg-white p-5 shadow-lg">
         <AiOutlineClose
           className="ml-auto rounded-full p-1 text-gray-500 hover:bg-light-gray"
           fontSize={24}
@@ -129,13 +129,13 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
           <div className="text-md flex flex-col gap-4 md:text-lg">
             <div>
               <div className="mb-2 block">
-                <Label color="purple" value="Wallet tag:" />
+                <Label color="primary" value="Wallet tag:" />
               </div>
               <TextInput
                 id="tag"
                 name="tag"
                 required={true}
-                color="purple"
+                color="primary"
                 onChange={handleFormChange}
                 helperText={
                   <span className="italic text-red-500">{formErrors.tag}</span>
@@ -144,7 +144,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label color="purple" value="Highlight:" />
+                <Label color="primary" value="Highlight:" />
               </div>
               <div className="flex flex-row justify-center">
                 <div
@@ -222,14 +222,14 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label color="purple" value="Address:" />
+                <Label color="primary" value="Address:" />
               </div>
               <TextInput
                 id="address"
                 name="address"
                 placeholder="0x"
                 required={true}
-                color="purple"
+                color="primary"
                 helperText={
                   <span className="italic text-red-500">
                     {formErrors.address}
@@ -245,17 +245,15 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
               <Select
                 id="chains"
                 name="chainId"
-                required={true}
+                required
                 onChange={handleFormChange}
+                className="focus:border-[#ff9922]"
               >
                 <option value={1}>Ethereum</option>
                 <option value={42161}>Arbitrum</option>
-                <option disabled={!isDev} value={56}>
-                  Binance
-                </option>
-                <option disabled={!isDev} value={10}>
-                  Optimism
-                </option>
+                <option value={56}>Binance</option>
+                <option value={10}>Optimism</option>
+                <option value={81457}>Blast</option>
 
                 {isDev && <option value={5}>Goerli</option>}
               </Select>
@@ -264,12 +262,13 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
         </div>
         <div className="flex flex-nowrap justify-center text-white">
           {isSubmitting ? (
-            <Spinner color="purple" aria-label="Submitting" size="lg" />
+            <Spinner color="primary" aria-label="Submitting" size="lg" />
           ) : (
             <Button
+              className="bg-[#ff9922] hover:bg-[#ff9700]"
               onClick={handleSubmit}
               size="md"
-              color="purple"
+              color="primary"
               disabled={formErrors.address.length || formErrors.tag.length}
             >
               Submit

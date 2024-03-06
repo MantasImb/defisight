@@ -14,6 +14,7 @@ import { ReactComponent as BscScanLogo } from "../assets/bscscan-logo.svg";
 import { ReactComponent as EtherScanLogo } from "../assets/etherscan-logo.svg";
 import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
 import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
+import { ReactComponent as BlastLogo } from "../assets/blast-logo.svg";
 
 import { getAge } from "../../utils/getAge";
 import { shortenAddress } from "../../utils/shortenAddress";
@@ -34,8 +35,9 @@ function AddressCell({ value }) {
       {walletCA && (
         <Tooltip content={walletCA}>
           <Button
+            className="bg-[#ff9922] hover:bg-[#ff9700]"
             outline={true}
-            color="purple"
+            color="primary"
             size="sm"
             onClick={() => openInExplorerNewTab(walletCA, chainId)}
           >
@@ -84,8 +86,8 @@ export default function WalletsTable({ data, setData }) {
             onClick={() =>
               navigate(`/wallet-info/${value.chainId}/${value.walletCA}`)
             }
-            className="mr-2"
-            color="purple"
+            className="mr-2 bg-[#ff9922] hover:bg-[#ff9700]"
+            color="primary"
             size="xs"
           >
             <AiFillInfoCircle className="text-white" />
@@ -120,6 +122,8 @@ export default function WalletsTable({ data, setData }) {
           if (value == 56) name = "Binance Smart Chain";
           if (value == 42161) name = "Arbitrum One";
           if (value == 10) name = "Optimism";
+          if (value == 5) name = "Goerli Testnet";
+          if (value == 81457) name = "Blast";
 
           return (
             <div className="flex justify-center text-lg">
@@ -129,6 +133,7 @@ export default function WalletsTable({ data, setData }) {
                 {value == 42161 && <ArbitrumLogo className="h-5 w-5" />}
                 {value == 10 && <OptimismLogo className="h-5 w-5" />}
                 {value == 5 && <p>GT</p>}
+                {value == 81457 && <BlastLogo className="h-5 w-5" />}
               </Tooltip>
             </div>
           );
@@ -214,7 +219,7 @@ export default function WalletsTable({ data, setData }) {
 
   return (
     <table
-      className="mx-auto block w-full overflow-auto rounded-md bg-purple-600 text-white shadow-md sm:w-fit"
+      className="mx-auto block w-full overflow-auto rounded-md bg-[#ff9922] text-white shadow-md sm:w-fit"
       {...getTableProps()}
     >
       <thead>
@@ -235,7 +240,7 @@ export default function WalletsTable({ data, setData }) {
             <tr {...row.getRowProps()}>
               {row.cells.map((cell) => (
                 <td
-                  className="border-b-1 border-purple-700 py-1 px-2"
+                  className="border-b-1 border-[#ff9922] py-1 px-2"
                   {...cell.getCellProps()}
                 >
                   {cell.render("Cell")}

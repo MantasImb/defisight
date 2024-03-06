@@ -127,8 +127,9 @@ export default function Notifications() {
               )}
 
               <Button
+                className="bg-[#ff9922] hover:bg-[#ff9700]"
                 outline={true}
-                color="purple"
+                color="primary"
                 size="xs"
                 onClick={(e) => {
                   let address =

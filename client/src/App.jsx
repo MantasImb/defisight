@@ -8,11 +8,11 @@ import { HiCheck, HiX } from "react-icons/hi";
 
 import { Navbar, Sidebar, ThemeSettings } from "./components";
 import {
-  Dashboard,
   TrackedWallets,
   WalletInfo,
   LiveTransactions,
   TokenInfo,
+  About,
 } from "./pages";
 import { Toast } from "flowbite-react";
 
@@ -103,9 +103,8 @@ export default function App() {
 
             {themeSettings && <ThemeSettings />}
             <Routes>
-              {/* Dashboard */}
-              <Route path="/" element={<TrackedWallets />} />
-              {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+              {/* Homepage */}
+              <Route path="/" element={<LiveTransactions />} />
 
               {/* Pages */}
 
@@ -122,6 +121,9 @@ export default function App() {
                 path="/wallet-info/:chainId/:ca"
                 element={<WalletInfo />}
               />
+              <Route path="/about" element={<About />} />
+
+              <Route path="*" element={<div>404</div>} />
             </Routes>
           </div>
         </div>
