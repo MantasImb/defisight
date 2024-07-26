@@ -1,4 +1,4 @@
 const shortenAddress = (address) =>
-  `${address.slice(0, 5)}...${address.slice(address.length - 4)}`
+  `${address.slice(0, 5)}...${address.slice(address.length - 4)}`;
 
-module.exports = shortenAddress
+module.exports = shortenAddress;

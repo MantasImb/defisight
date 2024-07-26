@@ -169,7 +169,9 @@ export default function LiveTransactions() {
             {value.chainId == 10 && (
               <OptimismLogo className="mx-1 h-5 w-5 self-center" />
             )}
-            {value.chainId == 5 && <p className="mx-1 self-center">GT</p>}
+            {value.chainId == 11155111 && (
+              <p className="mx-1 self-center">Sep</p>
+            )}
           </div>
         ),
       },

@@ -257,7 +257,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                   Optimism
                 </option>
 
-                {isDev && <option value={5}>Goerli</option>}
+                {isDev && <option value={11155111}>sepolia</option>}
               </Select>
             </div>
           </div>

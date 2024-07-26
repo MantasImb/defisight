@@ -11,8 +11,8 @@ const devWallets = [
   "0xe88edd63010b5d0b1393ad772f19e282687cbef8",
 ];
 
-const url = "https://server.chainwatcher.app/";
-// const url = "http://localhost:4000/";
+// const url = "https://server.chainwatcher.app/";
+const url = "http://localhost:4000/";
 
 const socket = io(url);
 const { ethereum } = window;
@@ -29,8 +29,8 @@ export default function APIProvider({ children }) {
   const bscProvider = ethers.getDefaultProvider(
     "https://bsc-dataseed.binance.org/"
   );
-  const goerliProvider = ethers.getDefaultProvider(
-    "https://rpc.goerli.mudit.blog"
+  const sepoliaProvider = ethers.getDefaultProvider(
+    "https://ethereum-sepolia-rpc.publicnode.com"
   );
   const optimismProvider = ethers.getDefaultProvider(
     "https://mainnet.optimism.io"
@@ -74,7 +74,7 @@ export default function APIProvider({ children }) {
     let provider;
     if (chainId == 1) provider = mainnetProvider;
     if (chainId == 56) provider = bscProvider;
-    if (chainId == 5) provider = goerliProvider;
+    if (chainId == 11155111) provider = sepoliaProvider;
     if (chainId == 10) provider = optimismProvider;
     if (chainId == 42161) provider = arbitrumProvider;
     try {
@@ -184,7 +184,7 @@ export default function APIProvider({ children }) {
   // ETHERSCAN API (not used)
 
   const etherscanProvider = new ethers.providers.EtherscanProvider(
-    "goerli",
+    "sepolia",
     "938A5X7YPBEK15XWNBRI55X9E6EEYA619Q"
   );
 

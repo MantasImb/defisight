@@ -128,7 +128,7 @@ export default function WalletsTable({ data, setData }) {
                 {value == 56 && <SiBinance />}
                 {value == 42161 && <ArbitrumLogo className="h-5 w-5" />}
                 {value == 10 && <OptimismLogo className="h-5 w-5" />}
-                {value == 5 && <p>GT</p>}
+                {value == 11155111 && <p>Sep</p>}
               </Tooltip>
             </div>
           );

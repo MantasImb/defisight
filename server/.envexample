@@ -1,0 +1,14 @@
+etherscankey=
+bscscankey=
+arbiscankey=
+optimismscankey=
+blastscankey=
+
+etherurl=
+sepoliaurl=
+optimismurl=
+blasturl=
+
+dburl=
+
+origin=http://localhost:5173

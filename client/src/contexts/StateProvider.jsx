@@ -15,6 +15,7 @@ export function StateProvider({ children }) {
     message: "",
     type: "",
   });
+  const [toastAwaitingReset, setToastAwaitingReset] = useState(false);
 
   function setMode(e) {
     setCurrentMode(e.target.value);
@@ -29,10 +30,14 @@ export function StateProvider({ children }) {
   }
 
   useEffect(() => {
-    if (toastState.message.length < 0) return;
-    setTimeout(() => {
-      setToastState({ message: "", type: "" });
-    }, 1000 * 5);
+    if (toastAwaitingReset) return;
+    if (toastState.message.length > 0 && !toastAwaitingReset) {
+      setToastAwaitingReset(true);
+      setTimeout(() => {
+        setToastState({ message: "", type: "" });
+        setToastAwaitingReset(false);
+      }, 1000 * 5);
+    }
   }, [toastState]);
 
   return (
