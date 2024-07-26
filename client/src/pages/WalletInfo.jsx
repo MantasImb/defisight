@@ -7,6 +7,9 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { SiBinance, SiEthereum } from "react-icons/si";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
+import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
+import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
+
 import { APIContext } from "../contexts/APIProvider";
 import { StateContext } from "../contexts/StateProvider";
 
@@ -52,7 +55,7 @@ export default function WalletInfo() {
   return (
     <div className="m-2 mt-14 flex flex-col rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
       <div className="flex flex-col items-center justify-center md:flex-row md:justify-between">
-        <Header category="Info" title="Wallet" />
+        <Header title="Wallet" info="View transactions of a specific wallet" />
         <form
           onSubmit={(e) => {
             handleSubmit(e);
@@ -74,6 +77,12 @@ export default function WalletInfo() {
                 {chainId == 1 && <SiEthereum />}
                 {chainId == 56 && <SiBinance />}
                 {chainId == 11155111 && "Sep"}
+                {chainId == 42161 && (
+                  <ArbitrumLogo className="mx-1 h-5 w-5 self-center invert" />
+                )}
+                {chainId == 10 && (
+                  <OptimismLogo className="mx-1 h-5 w-5 self-center invert" />
+                )}
                 {!chainId && <MdOutlineKeyboardArrowDown />}
               </>
             }
@@ -94,14 +103,24 @@ export default function WalletInfo() {
             >
               Binance Smart Chain
             </Dropdown.Item>
-            {devWallets.includes(currentAccount) && (
-              <Dropdown.Item
-                icon={SiEthereum}
-                onClick={() => navigate(`/wallet-info/11155111/${searchValue}`)}
-              >
-                sepolia TESTNET
-              </Dropdown.Item>
-            )}
+            <Dropdown.Item
+              icon={SiEthereum}
+              onClick={() => navigate(`/wallet-info/11155111/${searchValue}`)}
+            >
+              sepolia TESTNET
+            </Dropdown.Item>
+            <Dropdown.Item
+              icon={ArbitrumLogo}
+              onClick={() => navigate(`/wallet-info/42161/${searchValue}`)}
+            >
+              Arbitrum
+            </Dropdown.Item>
+            <Dropdown.Item
+              icon={OptimismLogo}
+              onClick={() => navigate(`/wallet-info/10/${searchValue}`)}
+            >
+              Optimism
+            </Dropdown.Item>
           </Dropdown>
         </form>
       </div>

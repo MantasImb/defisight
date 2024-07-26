@@ -43,7 +43,10 @@ export default function TrackedWallets() {
   return (
     <div className="m-2 mt-14 flex flex-col rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
       <div className="flex flex-col justify-center md:flex-row md:justify-between">
-        <Header category="Tables" title="Tracked Wallets" />
+        <Header
+          title="Tracked Wallets"
+          info="Add wallets to track their activity"
+        />
         <div className="flex flex-row">
           <Button
             className="mr-2 self-center"

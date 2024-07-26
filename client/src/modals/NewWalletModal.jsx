@@ -248,16 +248,24 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                 required={true}
                 onChange={handleFormChange}
               >
-                <option value={1}>Ethereum</option>
-                <option value={42161}>Arbitrum</option>
-                <option disabled={!isDev} value={56}>
+                <option value={11155111}>sepolia</option>
+                {/* Below are disabled because the project is sunset and is only used as a showcase */}
+                <option
+                  disabled
+                  value={1}
+                  className="cursor-not-allowed text-red-400"
+                >
+                  Ethereum
+                </option>
+                <option disabled value={42161} className="text-red-400">
+                  Arbitrum
+                </option>
+                <option disabled value={56} className="text-red-400">
                   Binance
                 </option>
-                <option disabled={!isDev} value={10}>
+                <option disabled value={10} className="text-red-400">
                   Optimism
                 </option>
-
-                {isDev && <option value={11155111}>sepolia</option>}
               </Select>
             </div>
           </div>

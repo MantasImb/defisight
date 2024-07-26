@@ -20,6 +20,7 @@ import { StateContext } from "./contexts/StateProvider";
 import { APIContext } from "./contexts/APIProvider";
 
 import "./App.css";
+import WelcomeModal from "./modals/WelcomeModal";
 
 export default function App() {
   const {
@@ -50,7 +51,7 @@ export default function App() {
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      {/* <WelcomeModal isOpen={!currentAccount} connect={connectWallet} /> */}
+      <WelcomeModal isOpen={!currentAccount} connect={connectWallet} />
       {toastState.message.length > 0 && (
         <Toast className="fixed top-5 right-5 z-50 animate-toastIn">
           {toastState.type == "success" ? (
@@ -109,7 +110,7 @@ export default function App() {
 
               {/* Pages */}
 
-              <Route path="/token-info" element={<TokenInfo />} />
+              {/* <Route path="/token-info" element={<TokenInfo />} /> */}
               <Route path="/tracked-wallets" element={<TrackedWallets />} />
               <Route path="/live-transactions" element={<LiveTransactions />} />
 

@@ -9,7 +9,7 @@ export default function TrackedWallets() {
   return (
     <div className="m-2 mt-14 flex h-full flex-col gap-3 rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
       <div className="flex justify-between">
-        <Header category="" title="Token info" />
+        <Header title="Token info" info="" />
         <Button.Group>
           <Button
             color={tab === "info" ? "purple" : "white"}

@@ -209,7 +209,10 @@ export default function LiveTransactions() {
   return (
     <div className="m-2 mt-14 h-screen rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
       <div className="flex flex-col justify-between sm:flex-row">
-        <Header category="Main" title="Live Transactions" />
+        <Header
+          title="Live Transactions"
+          info="View transactions of all your tracked wallets"
+        />
         <div className="flex items-center gap-2">
           <p
             style={{ color: currentColor }}

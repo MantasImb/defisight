@@ -5,10 +5,8 @@ import { Button } from "flowbite-react";
 import image from "../assets/welcome.png";
 import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
 
-function WelcomeModal({ isOpen, connect }) {
+function WelcomeModal({ isOpen, connect, simulateWallet }) {
   if (!isOpen) return null;
-
-  const [copied, setCopied] = React.useState(false);
 
   return ReactDOM.createPortal(
     <>
@@ -19,9 +17,7 @@ function WelcomeModal({ isOpen, connect }) {
         {/* put content of the modal in this div below */}
         <img src={image} />
         <div className="m-2 p-2 text-center">
-          <h1 className="text-2xl font-bold">
-            Welcome to the ChainWatcher.app!
-          </h1>
+          <h1 className="text-2xl font-bold">Welcome to the ChainWatcher!</h1>
           <p className="text-gray-500">
             Join us on the cutting edge of blockchain technology as we
             continuously evolve and improve our platform.
@@ -35,45 +31,25 @@ function WelcomeModal({ isOpen, connect }) {
             Connect your wallet and start your journey towards the future of
             finance.
           </p>
-          <a
-            href="https://dexscreener.com/ethereum/0xed5ef2c33d589debd4845efa6944c508bd03647d"
-            className="text-lg text-purple-600"
-          >
-            Our token is <span className="italic">LIVE.</span>{" "}
-            <span className=" underline underline-offset-1">
-              Click here to be redirected.
-            </span>
-          </a>
-          <div className="flex items-center justify-center gap-3">
-            <p className="animate-pulse text-lg italic text-black">
-              0xec4a2eC33Be08D3f366013Cf64c4774AB0E06a30
-            </p>
-            <div
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  "0xec4a2eC33Be08D3f366013Cf64c4774AB0E06a30"
-                );
-                setCopied(true);
-              }}
-            >
-              {" "}
-              {copied ? (
-                <AiOutlineCheck className="rounded-lg border-2 border-purple-600 p-1 text-3xl text-purple-600 hover:cursor-pointer" />
-              ) : (
-                <AiOutlineCopy className="rounded-lg border-2 border-purple-600 p-1 text-3xl text-purple-600 hover:cursor-pointer" />
-              )}
-            </div>
-          </div>
         </div>
-
-        <Button
-          onClick={connect}
-          size="md"
-          color="purple"
-          className="mx-5 mb-5"
-        >
-          Connect Wallet
-        </Button>
+        <div className="flex w-full justify-center">
+          <Button
+            onClick={connect}
+            size="md"
+            color="purple"
+            className="mx-5 mb-5"
+          >
+            Connect Wallet
+          </Button>
+          <Button
+            onClick={simulateWallet}
+            size="md"
+            color="purple"
+            className="mx-5 mb-5"
+          >
+            Simulate Wallet
+          </Button>
+        </div>
       </div>
     </>,
     document.getElementById("portal")
