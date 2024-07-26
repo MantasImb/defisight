@@ -6,7 +6,7 @@
   "homepage": "https://scouterai.vip",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --output build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
