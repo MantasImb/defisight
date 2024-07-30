@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
 
-export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
+export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
   if (!isOpen) return null;
 
   const [formValues, setFormValues] = useState({
@@ -36,6 +36,15 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
       return {
         ...prev,
         [name]: "",
+      };
+    });
+  }
+
+  function handleUseTestAddress() {
+    setFormValues((prev) => {
+      return {
+        ...prev,
+        address: "0xFF05c2Bc8461622359F33dbea618bb028D943eCE",
       };
     });
   }
@@ -129,7 +138,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
           <div className="text-md flex flex-col gap-4 md:text-lg">
             <div>
               <div className="mb-2 block">
-                <Label color="purple" value="Wallet tag:" />
+                <Label value="Wallet tag:" />
               </div>
               <TextInput
                 id="tag"
@@ -144,7 +153,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label color="purple" value="Highlight:" />
+                <Label value="Highlight:" />
               </div>
               <div className="flex flex-row justify-center">
                 <div
@@ -221,8 +230,14 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
               </div>
             </div>
             <div>
-              <div className="mb-2 block">
-                <Label color="purple" value="Address:" />
+              <div className="mb-2 flex justify-between">
+                <Label htmlFor="address" value="Address:" />
+                <button
+                  onClick={handleUseTestAddress}
+                  className="ml-2 border-none bg-transparent text-sm text-blue-500 underline hover:text-blue-300"
+                >
+                  Use test address
+                </button>
               </div>
               <TextInput
                 id="address"
@@ -230,6 +245,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit, isDev }) {
                 placeholder="0x"
                 required={true}
                 color="purple"
+                value={formValues.address}
                 helperText={
                   <span className="italic text-red-500">
                     {formErrors.address}
