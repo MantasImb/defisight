@@ -11,7 +11,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
   const [formValues, setFormValues] = useState({
     tag: "",
     address: "",
-    chainId: 1,
+    chainId: 11155111,
     highlight: "gray",
   });
 
