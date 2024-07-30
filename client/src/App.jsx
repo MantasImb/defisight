@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SlWallet } from "react-icons/sl";
 import { HiCheck, HiX } from "react-icons/hi";
 
-import { Navbar, Sidebar, ThemeSettings } from "./components";
+import { Navbar, Sidebar } from "./components";
 import {
   Dashboard,
   TrackedWallets,
@@ -33,7 +33,8 @@ export default function App() {
     setToastState,
   } = useContext(StateContext);
 
-  const { currentAccount, connectWallet } = useContext(APIContext);
+  const { currentAccount, connectWallet, simulateRandomWallet } =
+    useContext(APIContext);
 
   useEffect(() => {
     if (currentAccount) {
@@ -51,7 +52,11 @@ export default function App() {
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <WelcomeModal isOpen={!currentAccount} connect={connectWallet} />
+      <WelcomeModal
+        isOpen={!currentAccount}
+        connect={connectWallet}
+        simulateRandomWallet={simulateRandomWallet}
+      />
       {toastState.message.length > 0 && (
         <Toast className="fixed top-5 right-5 z-50 animate-toastIn">
           {toastState.type == "success" ? (

@@ -5,7 +5,7 @@ import { Button } from "flowbite-react";
 import image from "../assets/welcome.png";
 import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
 
-function WelcomeModal({ isOpen, connect, simulateWallet }) {
+function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
@@ -42,7 +42,7 @@ function WelcomeModal({ isOpen, connect, simulateWallet }) {
             Connect Wallet
           </Button>
           <Button
-            onClick={simulateWallet}
+            onClick={simulateRandomWallet}
             size="md"
             color="purple"
             className="mx-5 mb-5"

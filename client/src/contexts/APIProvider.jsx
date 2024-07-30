@@ -86,6 +86,36 @@ export default function APIProvider({ children }) {
     }
   }
 
+  // SIMULATION FUNCTIONS
+
+  async function simulateRandomWallet() {
+    // read from local storage if wallet exists
+    let localAccount = localStorage.getItem("localAccount");
+    console.log(localStorage);
+
+    // if the user already has a wallet in local storage, use that
+    if (localAccount) {
+      setCurrentAccount(localAccount);
+      return;
+    }
+
+    // if the user doesn't have a wallet in local storage, generate a new one
+    let newAccount = "1x" + Math.floor(Math.random() * 1000000);
+    setCurrentAccount(newAccount);
+
+    // save to local storage
+    localStorage.setItem("localAccount", newAccount);
+  }
+
+  async function simulateSepoliaTransaction() {
+    try {
+      let response = await axios.get(`${url}test`);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // SERVER API
 
   async function getHistory(accountCA, chainId) {
@@ -253,6 +283,8 @@ export default function APIProvider({ children }) {
     <APIContext.Provider
       value={{
         connectWallet,
+        simulateRandomWallet,
+        simulateSepoliaTransaction,
         currentAccount,
         getHistory,
         getAccountHistory,
