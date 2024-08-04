@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 
 import { Button } from "flowbite-react";
 import image from "../assets/welcome.png";
-import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
 import { GrTest } from "react-icons/gr";
 
 function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
@@ -19,8 +18,8 @@ function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
         <div className="flex flex-col text-center gap-2 px-2 md:px-4">
           <p className="text-gray-500">
             ChainWatcher is a work-in-progress, constantly striving to bring you
-            the best tools for monitoring and profiting from the ICO's of the
-            crypto world.
+            the best tools for monitoring and profiting from the ICO&#39;s of
+            the crypto world.
           </p>
           <div className="w-full h-[1px] bg-gray-500 my-2" />
           <p className="text-gray-500">
@@ -35,12 +34,13 @@ function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
             .
           </p>
           <p className="text-gray-500">
-            Feel free to press the "Simulate Wallet" button to get a local
-            wallet, add a testing wallet to your tracked wallets, and press the
+            Feel free to simulate a new wallet, add a testing wallet to your
+            tracked wallets, and press the
             <div className="inline-block mx-1 -mb-1 p-1 rounded-full bg-purple-600">
               <GrTest className="text-white" />
             </div>
-            button to simulate a transaction.
+            button to simulate a transaction. Give it a few moments and you
+            should see a notification.
           </p>
         </div>
         <div className="flex w-full justify-center gap-4 px-2 pb-2 md:pb-4">

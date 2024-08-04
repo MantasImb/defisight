@@ -1,15 +1,15 @@
 function formatFunctionName(item) {
-  let method = item.methodId
-  if (method == "0x") method = "Transfer"
+  let method = item.methodId;
+  if (method == "0x") method = "Transfer";
   if (item.functionName && item.functionName.length) {
-    camelCase = item.functionName
-    let capitalized = camelCase[0].toUpperCase() + camelCase.substring(1)
+    let capitalized =
+      item.functionName[0].toUpperCase() + item.functionName.substring(1);
     method = capitalized
       .split("(")[0]
       .replace(/([A-Z])/g, " $1")
-      .trim()
+      .trim();
   }
-  return method
+  return method;
 }
 
-module.exports = formatFunctionName
+module.exports = formatFunctionName;

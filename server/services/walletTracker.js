@@ -13,11 +13,11 @@ const { connectedUsers } = require("../websocket/notifications");
 const io = require("../websocket/setup");
 
 const {
-  mainnetSocket,
   sepoliaSocket,
-  binanceSocket,
-  arbitrumSocket,
-  optimismSocket,
+  // mainnetSocket,
+  // binanceSocket,
+  // arbitrumSocket,
+  // optimismSocket,
 } = require("../config/urls");
 
 const formatFunctionName = require("../utilities/formatFunctionName");
@@ -31,6 +31,8 @@ let wallets = {
   // 42161: [], // arbitrum
   // 10: [], // optimism
 };
+
+let sepoliaProvider;
 
 async function getAllWallets() {
   try {
@@ -193,4 +195,4 @@ async function main() {
 
 main();
 
-module.exports = { wallets };
+module.exports = { wallets, sepoliaProvider };

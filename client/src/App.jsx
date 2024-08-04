@@ -90,7 +90,6 @@ export default function App() {
             <Routes>
               {/* Dashboard */}
               <Route path="/" element={<TrackedWallets />} />
-              {/* <Route path="/dashboard" element={<Dashboard />} /> */}
 
               {/* Pages */}
 

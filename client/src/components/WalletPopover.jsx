@@ -118,12 +118,3 @@ function ChainNameWithIcon({ chainId }) {
     </div>
   );
 }
-
-function BalanceWithIcon({ chainId, balance }) {
-  return (
-    <div className="flex flex-row items-center gap-2">
-      <ChainIcon chainId={chainId} />
-      {balance && <p className="text-nowrap pl-1">{balance.slice(0, 5)}</p>}
-    </div>
-  );
-}

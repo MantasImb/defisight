@@ -1,7 +1,7 @@
-const Wallet = require("../models/Wallet")
-const User = require("../models/User")
-const { createError } = require("./error")
-const { findOrCreateUser } = require("./user")
+const Wallet = require("../models/Wallet");
+const User = require("../models/User");
+const { createError } = require("./error");
+const { findOrCreateUser } = require("./user");
 
 async function addWallet(
   userCA,
@@ -13,7 +13,7 @@ async function addWallet(
   referral
 ) {
   try {
-    let user = await findOrCreateUser(userCA, referral)
+    let user = await findOrCreateUser(userCA, referral);
     let wallet = await Wallet.create({
       trackedByCA: userCA,
       tag,
@@ -21,57 +21,57 @@ async function addWallet(
       chainId,
       highlight,
       lastTimestamp,
-    })
-    user.trackedWallets.push(wallet._id)
-    user.save()
-    return wallet
+    });
+    user.trackedWallets.push(wallet._id);
+    user.save();
+    return wallet;
   } catch (error) {
-    createError(error)
+    createError(error);
   }
 }
 
 async function getWallets(userCA) {
   try {
-    let user = await findOrCreateUser(userCA)
+    await findOrCreateUser(userCA);
     let list = await User.where("userCA")
       .equals(userCA)
-      .populate("trackedWallets")
-    let [{ trackedWallets }] = list
-    return trackedWallets
+      .populate("trackedWallets");
+    let [{ trackedWallets }] = list;
+    return trackedWallets;
   } catch (error) {
-    createError(error)
+    createError(error);
   }
 }
 
 async function getAllChainWallets(chainId) {
   try {
-    let wallets = await Wallet.find({ chainId: chainId })
-    return wallets
+    let wallets = await Wallet.find({ chainId: chainId });
+    return wallets;
   } catch (error) {
-    createError(error)
+    createError(error);
   }
 }
 
 async function deleteWallet(userCA, walletId) {
   try {
-    let user = await User.findOne({ userCA: userCA })
-    user.trackedWallets.pull(walletId)
-    user.save()
-    let wallet = await Wallet.findByIdAndDelete(walletId)
-    return wallet
+    let user = await User.findOne({ userCA: userCA });
+    user.trackedWallets.pull(walletId);
+    user.save();
+    let wallet = await Wallet.findByIdAndDelete(walletId);
+    return wallet;
   } catch (error) {
-    createError(error)
+    createError(error);
   }
 }
 
 async function updateWalletTimestamp(walletCA, chainId) {
   try {
-    let wallets = await Wallet.find({ walletCA: walletCA, chainId: chainId })
+    let wallets = await Wallet.find({ walletCA: walletCA, chainId: chainId });
     for (const wallet of wallets) {
-      wallet.updateTimestamp()
+      wallet.updateTimestamp();
     }
   } catch (error) {
-    createError(error)
+    createError(error);
   }
 }
 
@@ -81,4 +81,4 @@ module.exports = {
   getAllChainWallets,
   deleteWallet,
   updateWalletTimestamp,
-}
+};

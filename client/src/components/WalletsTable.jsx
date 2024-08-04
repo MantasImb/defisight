@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-key */
+// This rule is used because the old version of react-table provides a key prop which is provided using the spread operator
+// There is no functionality issue with this
 import React, { useContext, useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
@@ -5,8 +8,8 @@ import { useTable } from "react-table";
 import { StateContext } from "../contexts/StateProvider";
 import { APIContext } from "../contexts/APIProvider";
 
-import { Button, Tooltip, Dropdown, Badge } from "flowbite-react";
-import { AiFillEye, AiFillInfoCircle, AiOutlineStock } from "react-icons/ai";
+import { Button, Tooltip, Dropdown } from "flowbite-react";
+import { AiFillInfoCircle, AiOutlineStock } from "react-icons/ai";
 import { SiBinance, SiEthereum } from "react-icons/si";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
@@ -18,7 +21,7 @@ import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
 import { getAge } from "../../utils/getAge";
 import { shortenAddress } from "../../utils/shortenAddress";
 import { openInExplorerNewTab } from "../../utils/openInNewTab";
-import { BsDot, BsThreeDotsVertical } from "react-icons/bs";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 // ADDRESS CELL
 

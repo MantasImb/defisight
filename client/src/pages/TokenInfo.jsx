@@ -103,6 +103,7 @@ export default function TokenInfo() {
                     href="https://dexscreener.com/ethereum/0xed5ef2c33d589debd4845efa6944c508bd03647d"
                     className="text-blue-600 hover:underline dark:text-blue-500"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     DexScreener
                   </a>
@@ -110,8 +111,8 @@ export default function TokenInfo() {
                 <li>
                   <a
                     href="https://tokensniffer.com/token/eth/abus59nab040gja5xv32e5305oz0kkx60bzk5sbsqqs9jx3ualmp8xk4p90x"
-                    rel="nofollow"
                     target="_blank"
+                    rel="noreferrer"
                     className="text-blue-600 hover:underline dark:text-blue-500"
                   >
                     Token Sniffer

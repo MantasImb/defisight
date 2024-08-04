@@ -1,6 +1,6 @@
 const { getWallets, addWallet, deleteWallet } = require("../database/wallet");
 const { createError } = require("../database/error");
-const { wallets } = require("../services/walletTracker");
+const { wallets, sepoliaProvider } = require("../services/walletTracker");
 const { getLatestTimestamp } = require("../external-api/scanners");
 
 async function getTrackedWallets(req, res) {
@@ -53,11 +53,11 @@ async function addTrackedWallet(req, res) {
       });
     } else {
       let provider;
-      if (body.chainId == "1") provider = mainnetProvider;
-      if (body.chainId == "56") provider = binanceProvider;
       if (body.chainId == "11155111") provider = sepoliaProvider;
-      if (body.chainId == "42161") provider = arbitrumProvider;
-      if (body.chainId == "10") provider = optimismProvider;
+      // if (body.chainId == "1") provider = mainnetProvider;
+      // if (body.chainId == "56") provider = binanceProvider;
+      // if (body.chainId == "42161") provider = arbitrumProvider;
+      // if (body.chainId == "10") provider = optimismProvider;
 
       let balance = await provider.getBalance(body.address);
 

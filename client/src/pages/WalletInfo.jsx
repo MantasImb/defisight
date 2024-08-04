@@ -11,7 +11,6 @@ import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
 import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
 
 import { APIContext } from "../contexts/APIProvider";
-import { StateContext } from "../contexts/StateProvider";
 
 export default function WalletInfo() {
   const { chainId, ca } = useParams();
@@ -21,10 +20,9 @@ export default function WalletInfo() {
   const [historyError, setHistoryError] = useState();
   const [fetchingHistory, setFetchingHistory] = useState(false);
 
-  const { getHistory, currentAccount, devWallets } = useContext(APIContext);
-  const { screenSize } = useContext(StateContext);
+  const { getHistory } = useContext(APIContext);
 
-  function handleSubmit(e) {
+  function handleSubmit() {
     navigate(`/wallet-info/${chainId}/${searchValue}`);
   }
 
@@ -139,7 +137,6 @@ export default function WalletInfo() {
           </Card>
         )}
       </div>
-      {/* <button onClick={() => console.log(accountHistory)}>OK</button> */}
     </div>
   );
 }

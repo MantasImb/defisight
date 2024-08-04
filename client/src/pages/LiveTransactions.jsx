@@ -1,14 +1,14 @@
-// TODO: Add unseen notification functionality
-// TODO: Add styles for an unseen notification
+/* eslint-disable react/jsx-key */
+// This rule is used because the old version of react-table provides a key prop which is provided using the spread operator
+// There is no functionality issue with this
 
 import React, { useEffect, useContext, useState } from "react";
 
 import { useTable } from "react-table";
 
-import { Dropdown, Tooltip, Button, Card } from "flowbite-react";
-import { RiNotification3Line } from "react-icons/ri";
+import { Tooltip, Button, Card } from "flowbite-react";
 import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
-import { SiEthereum } from "react-icons/si";
+import { SiEthereum, SiBinance } from "react-icons/si";
 
 import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
 import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";

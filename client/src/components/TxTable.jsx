@@ -1,7 +1,10 @@
+/* eslint-disable react/jsx-key */
+// This rule is used because the old version of react-table provides a key prop which is provided using the spread operator
+// There is no functionality issue with this
 import React, { useMemo, useContext, useEffect } from "react";
 import { useTable, usePagination } from "react-table";
 
-import { Tooltip, Button, TextInput } from "flowbite-react";
+import { Tooltip, Button } from "flowbite-react";
 import { AiFillEye, AiOutlineInfoCircle } from "react-icons/ai";
 import { BiLinkExternal } from "react-icons/bi";
 
@@ -10,14 +13,12 @@ import { shortenAddress } from "../../utils/shortenAddress";
 import {
   openInExplorerNewTab,
   openTxInExplorerNewTab,
-  openInNewTab,
 } from "../../utils/openInNewTab";
 
 import { StateContext } from "../contexts/StateProvider";
 
 export default function TxTable({ data, chainId }) {
-  const { currentColor, currentMode, screenSize, setToastState } =
-    useContext(StateContext);
+  const { screenSize } = useContext(StateContext);
 
   function AddressCell({ value }) {
     let string;

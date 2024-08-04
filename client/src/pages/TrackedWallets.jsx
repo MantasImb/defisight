@@ -1,12 +1,10 @@
 // TODO: Add styling for dark mode
 
 import { Button } from "flowbite-react";
-import React, { useContext, useState, useEffect, useMemo } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { Header, WalletsTable } from "../components";
 import NewWalletModal from "../modals/NewWalletModal";
-
-// import { toast } from "react-toastify";
 
 import { StateContext } from "../contexts/StateProvider";
 import { APIContext } from "../contexts/APIProvider";

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Dropdown, Spinner, Tooltip } from "flowbite-react";
+import { Spinner, Tooltip } from "flowbite-react";
 import { GrTest } from "react-icons/gr";
 
 import { APIContext } from "../contexts/APIProvider";

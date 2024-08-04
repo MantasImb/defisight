@@ -1,11 +1,10 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { MdOutlineCancel } from "react-icons/md"
-import { AiOutlineClose } from "react-icons/ai"
+import { AiOutlineClose } from "react-icons/ai";
 
 function Modal({ isOpen, children, onClose }) {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return ReactDOM.createPortal(
     <>
@@ -33,7 +32,7 @@ function Modal({ isOpen, children, onClose }) {
       </div>
     </>,
     document.getElementById("portal")
-  )
+  );
 }
 
-export default Modal
+export default Modal;

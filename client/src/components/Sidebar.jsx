@@ -1,31 +1,18 @@
-// TODO: Add sidebar open/close animation.
-
 import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { RiDashboardLine } from "react-icons/ri";
 import { MdOutlineCancel } from "react-icons/md";
-import { FiShoppingBag } from "react-icons/fi";
-import { IoMdContacts } from "react-icons/io";
 import { RiContactsLine, RiStockLine } from "react-icons/ri";
 import { AiOutlineCalendar, AiOutlineStock } from "react-icons/ai";
 import { FaTelegram, FaTwitter } from "react-icons/fa";
 import { SiMedium } from "react-icons/si";
 import { TbRadar2 } from "react-icons/tb";
-import { CiMail } from "react-icons/ci";
 import { GiToken } from "react-icons/gi";
 import image from "../assets/logominified-removebg-preview.png";
-import { openInNewTab } from "../../utils/openInNewTab";
 
 const links = [
   {
     title: "Main",
     links: [
-      // {
-      //   name: "Dashboard",
-      //   link: "dashboard",
-      //   icon: <RiDashboardLine />,
-      //   available: true,
-      // },
       {
         name: "Live Transactions",
         link: "live-transactions",

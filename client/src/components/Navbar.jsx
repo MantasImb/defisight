@@ -1,14 +1,11 @@
-import { Button } from "flowbite-react"
-import React, { useEffect, useContext } from "react"
-import { AiOutlineMenu } from "react-icons/ai"
-import { FiShoppingCart } from "react-icons/fi"
-import { MdKeyboardArrowDown } from "react-icons/md"
+import React, { useEffect, useContext } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
 
-import { Notifications } from "."
+import { Notifications } from ".";
 
-import { StateContext } from "../contexts/StateProvider"
+import { StateContext } from "../contexts/StateProvider";
 
-function NavButton({ title, customFunc, icon, color, isActive, data }) {
+function NavButton({ customFunc, icon, color, isActive }) {
   return (
     <button
       type="button"
@@ -24,31 +21,31 @@ function NavButton({ title, customFunc, icon, color, isActive, data }) {
       )}
       {icon}
     </button>
-  )
+  );
 }
 
 export default function Navbar() {
   const { setActiveMenu, screenSize, setScreenSize, currentColor } =
-    useContext(StateContext)
+    useContext(StateContext);
 
   useEffect(() => {
     function handleResize() {
-      setScreenSize(window.innerWidth)
+      setScreenSize(window.innerWidth);
     }
-    window.addEventListener("resize", handleResize)
+    window.addEventListener("resize", handleResize);
 
-    handleResize()
+    handleResize();
 
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (screenSize <= 900) {
-      setActiveMenu(false)
+      setActiveMenu(false);
     } else {
-      setActiveMenu(true)
+      setActiveMenu(true);
     }
-  }, [screenSize])
+  }, [screenSize]);
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
       <NavButton
@@ -61,5 +58,5 @@ export default function Navbar() {
         <Notifications />
       </div>
     </div>
-  )
+  );
 }
