@@ -39,9 +39,9 @@ export default function TestingButton() {
         className="p-3 hover:drop-shadow-xl rounded-full bg-purple-600 hover:bg-purple-700 cursor-pointer"
       >
         {isLoading ? (
-          <Spinner color="purple" className="h-7 w-7" />
+          <Spinner color="purple" />
         ) : (
-          <GrTest className="h-7 w-7" />
+          <GrTest className=" text-white text-xl md:text-3xl " />
         )}
       </div>
     </Tooltip>

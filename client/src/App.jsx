@@ -1,13 +1,9 @@
-// TODO: Make a dashboard page
-// TODO: Make a welcome modal for new user to add a celebrity wallet/s
-
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HiCheck, HiX } from "react-icons/hi";
 
 import { Navbar, Sidebar, WalletPopover, TestingButton } from "./components";
 import {
-  Dashboard,
   TrackedWallets,
   WalletInfo,
   LiveTransactions,
@@ -23,15 +19,8 @@ import { APIContext } from "./contexts/APIProvider";
 import "./App.css";
 
 export default function App() {
-  const {
-    activeMenu,
-    themeSettings,
-    setThemeSettings,
-    currentColor,
-    currentMode,
-    toastState,
-    setToastState,
-  } = useContext(StateContext);
+  const { activeMenu, currentMode, toastState, setToastState } =
+    useContext(StateContext);
 
   const { currentAccount, connectWallet, simulateRandomWallet } =
     useContext(APIContext);
@@ -82,7 +71,7 @@ export default function App() {
             <WalletPopover />
           </div>
           {activeMenu ? (
-            <div className="sidebar fixed w-72 bg-white dark:bg-secondary-dark-bg ">
+            <div className="z-10 fixed w-72 bg-white dark:bg-secondary-dark-bg ">
               <Sidebar />
             </div>
           ) : (
@@ -95,11 +84,9 @@ export default function App() {
               activeMenu ? "md:ml-72" : "flex-2"
             }`}
           >
-            <div className="navbar fixed w-full bg-main-bg dark:bg-main-dark-bg md:static">
+            <div className="fixed z-10 w-full bg-main-bg dark:bg-main-dark-bg md:static">
               <Navbar />
             </div>
-
-            {themeSettings && <ThemeSettings />}
             <Routes>
               {/* Dashboard */}
               <Route path="/" element={<TrackedWallets />} />

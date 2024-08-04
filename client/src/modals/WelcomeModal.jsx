@@ -4,54 +4,55 @@ import ReactDOM from "react-dom";
 import { Button } from "flowbite-react";
 import image from "../assets/welcome.png";
 import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
+import { GrTest } from "react-icons/gr";
 
 function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <>
-      {/* overlay */}
-      <div className="fixed inset-0 z-10 h-full w-full animate-fadeIn overflow-y-auto bg-gray-600 bg-opacity-50"></div>
-      {/* content */}
-      <div className="fixed top-1/2 left-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 animate-fadeIn flex-col overflow-hidden rounded-md border border-purple-700 bg-white shadow-lg">
-        {/* put content of the modal in this div below */}
+    <div className="fixed inset-0 z-20 top-0 left-0 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50 flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-2 md:gap-4 overflow-hidden rounded-md border border-purple-700 bg-white shadow-lg w-4/5 lg:w-1/2">
         <img src={image} />
-        <div className="m-2 p-2 text-center">
-          <h1 className="text-2xl font-bold">Welcome to the ChainWatcher!</h1>
-          <p className="text-gray-500">
-            Join us on the cutting edge of blockchain technology as we
-            continuously evolve and improve our platform.
-          </p>
+        <h1 className="text-xl sm:text-2xl font-bold text-center px-2">
+          Welcome to the ChainWatcher!
+        </h1>
+        <div className="flex flex-col text-center gap-2 px-2 md:px-4">
           <p className="text-gray-500">
             ChainWatcher is a work-in-progress, constantly striving to bring you
             the best tools for monitoring and profiting from the ICO's of the
             crypto world.
           </p>
+          <div className="w-full h-[1px] bg-gray-500 my-2" />
           <p className="text-gray-500">
-            Connect your wallet and start your journey towards the future of
-            finance.
+            The project, as of now, is sunset and is used as a showcase for my
+            personal portfolio -{" "}
+            <a
+              className="text-purple-600 underline"
+              href="https://www.mantas.im"
+            >
+              Mantas.im
+            </a>
+            .
+          </p>
+          <p className="text-gray-500">
+            Feel free to press the "Simulate Wallet" button to get a local
+            wallet, add a testing wallet to your tracked wallets, and press the
+            <div className="inline-block mx-1 -mb-1 p-1 rounded-full bg-purple-600">
+              <GrTest className="text-white" />
+            </div>
+            button to simulate a transaction.
           </p>
         </div>
-        <div className="flex w-full justify-center">
-          <Button
-            onClick={connect}
-            size="md"
-            color="purple"
-            className="mx-5 mb-5"
-          >
+        <div className="flex w-full justify-center gap-4 px-2 pb-2 md:pb-4">
+          <Button onClick={connect} size="md" color="purple">
             Connect Wallet
           </Button>
-          <Button
-            onClick={simulateRandomWallet}
-            size="md"
-            color="purple"
-            className="mx-5 mb-5"
-          >
+          <Button onClick={simulateRandomWallet} size="md" color="purple">
             Simulate Wallet
           </Button>
         </div>
       </div>
-    </>,
+    </div>,
     document.getElementById("portal")
   );
 }

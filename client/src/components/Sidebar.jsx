@@ -71,7 +71,7 @@ function SocialButton({ customFunc, icon, color }) {
       type="button"
       onClick={customFunc}
       style={{ color }}
-      className="relative rounded-full p-3 text-xl hover:bg-light-gray"
+      className="relative rounded-full p-3 text-xl hover:bg-light-gray cursor-not-allowed"
     >
       {icon}
     </button>
