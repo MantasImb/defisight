@@ -75,7 +75,7 @@ export default function Notifications() {
       arrowIcon={false}
       className="max-h-[400px] overflow-y-auto overflow-x-hidden"
     >
-      <Dropdown.Header className="flex items-center justify-between">
+      <Dropdown.Header className="flex items-center justify-between gap-2">
         <p
           style={{ color: currentColor }}
           className="whitespace-nowrap text-lg font-bold"
@@ -158,7 +158,7 @@ export default function Notifications() {
           </div>
         ))
       ) : (
-        <p className="text-center italic">No notifications to show.</p>
+        <p className="text-center italic text-sm">No notifications to show.</p>
       )}
     </Dropdown>
   );

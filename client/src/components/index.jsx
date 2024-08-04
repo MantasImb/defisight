@@ -5,3 +5,5 @@ export { default as Notifications } from "./Notifications";
 export { default as Header } from "./Header";
 export { default as TxTable } from "./TxTable";
 export { default as WalletsTable } from "./WalletsTable";
+export { default as WalletPopover } from "./WalletPopover";
+export { default as TestingButton } from "./TestingButton";

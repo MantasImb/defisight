@@ -3,12 +3,12 @@ import { Header } from "../components";
 import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
 import { Button, Accordion, Card } from "flowbite-react";
 
-export default function TrackedWallets() {
+export default function TokenInfo() {
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("chart");
   return (
     <div className="m-2 mt-14 flex h-full flex-col gap-3 rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-start">
         <Header title="Token info" info="" />
         <Button.Group>
           <Button

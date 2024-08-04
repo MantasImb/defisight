@@ -3,10 +3,9 @@
 
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SlWallet } from "react-icons/sl";
 import { HiCheck, HiX } from "react-icons/hi";
 
-import { Navbar, Sidebar } from "./components";
+import { Navbar, Sidebar, WalletPopover, TestingButton } from "./components";
 import {
   Dashboard,
   TrackedWallets,
@@ -14,13 +13,14 @@ import {
   LiveTransactions,
   TokenInfo,
 } from "./pages";
+import WelcomeModal from "./modals/WelcomeModal";
+
 import { Toast } from "flowbite-react";
 
 import { StateContext } from "./contexts/StateProvider";
 import { APIContext } from "./contexts/APIProvider";
 
 import "./App.css";
-import WelcomeModal from "./modals/WelcomeModal";
 
 export default function App() {
   const {
@@ -53,7 +53,7 @@ export default function App() {
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <WelcomeModal
-        isOpen={!currentAccount}
+        isOpen={currentAccount == null}
         connect={connectWallet}
         simulateRandomWallet={simulateRandomWallet}
       />
@@ -74,20 +74,12 @@ export default function App() {
       )}
       <BrowserRouter>
         <div className="relative flex overflow-hidden dark:bg-main-dark-bg">
-          <div className="fixed right-4 bottom-4" style={{ zIndex: "2" }}>
-            <button
-              type="button"
-              className="p-3 text-xl text-white hover:bg-light-gray hover:drop-shadow-xl md:text-3xl"
-              style={{
-                background: currentAccount ? currentColor : "red",
-                borderRadius: "50%",
-              }}
-              onClick={() => {
-                connectWallet();
-              }}
-            >
-              <SlWallet />
-            </button>
+          <div
+            className="fixed flex gap-2 right-4 bottom-4"
+            style={{ zIndex: "2" }}
+          >
+            <TestingButton />
+            <WalletPopover />
           </div>
           {activeMenu ? (
             <div className="sidebar fixed w-72 bg-white dark:bg-secondary-dark-bg ">
@@ -115,7 +107,7 @@ export default function App() {
 
               {/* Pages */}
 
-              {/* <Route path="/token-info" element={<TokenInfo />} /> */}
+              <Route path="/token-info" element={<TokenInfo />} />
               <Route path="/tracked-wallets" element={<TrackedWallets />} />
               <Route path="/live-transactions" element={<LiveTransactions />} />
 

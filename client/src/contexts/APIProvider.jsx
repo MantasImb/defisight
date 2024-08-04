@@ -100,11 +100,17 @@ export default function APIProvider({ children }) {
     }
 
     // if the user doesn't have a wallet in local storage, generate a new one
-    let newAccount = "1x" + Math.floor(Math.random() * 1000000);
+    let newAccount = "1x" + Math.floor(Math.random() * 1_000_000_000);
     setCurrentAccount(newAccount);
 
     // save to local storage
     localStorage.setItem("localAccount", newAccount);
+  }
+
+  function disconnectSimulatedWallet() {
+    setCurrentAccount(null);
+    setChainId(null);
+    localStorage.removeItem("localAccount");
   }
 
   async function simulateSepoliaTransaction() {
@@ -283,9 +289,11 @@ export default function APIProvider({ children }) {
     <APIContext.Provider
       value={{
         connectWallet,
+        disconnectSimulatedWallet,
         simulateRandomWallet,
         simulateSepoliaTransaction,
         currentAccount,
+        chainId,
         getHistory,
         getAccountHistory,
         getWallets,

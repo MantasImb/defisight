@@ -12,4 +12,4 @@ const devWallets = [
   },
 ];
 
-module.exports = devWallets;
+module.exports = { devWallets };

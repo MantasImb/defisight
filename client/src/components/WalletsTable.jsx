@@ -190,7 +190,6 @@ export default function WalletsTable({ data, setData }) {
               icon={RiDeleteBin2Line}
               onClick={() => {
                 deleteWallet(props.value.id);
-                // TODO : add undo functionality to toast
                 setToastState({ message: "Wallet deleted", type: "success" });
                 let tempData = [...data];
                 tempData.splice(props.row.index, 1);

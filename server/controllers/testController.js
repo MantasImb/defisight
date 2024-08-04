@@ -20,11 +20,11 @@ async function sendSepoliaEth(req, res) {
     );
 
     // Connect wallet
-    const signer = new ethers.Wallet(fromWallet, provider);
+    const signer = new ethers.Wallet(fromWallet.privateKey, provider);
 
     // Send transaction
     const tx = await signer.sendTransaction({
-      to: toWallet,
+      to: toWallet.address,
       value: ammount,
       gasLimit: 21000,
       gasPrice: ethers.utils.parseUnits("10", "gwei"),
