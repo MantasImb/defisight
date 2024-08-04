@@ -36,9 +36,9 @@ function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
           <p className="text-gray-500">
             Feel free to simulate a new wallet, add a testing wallet to your
             tracked wallets, and press the
-            <div className="inline-block mx-1 -mb-1 p-1 rounded-full bg-purple-600">
+            <span className="inline-block mx-1 -mb-1 p-1 rounded-full bg-purple-600">
               <GrTest className="text-white" />
-            </div>
+            </span>
             button to simulate a transaction. Give it a few moments and you
             should see a notification.
           </p>
