@@ -12,3 +12,9 @@ blasturl=
 dburl=
 
 origin=http://localhost:5173
+
+devwalletaddress1=
+devwalletprivatekey1=
+
+devwalletaddress2=
+devwalletprivatekey2=

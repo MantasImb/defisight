@@ -11,8 +11,8 @@ const devWallets = [
   "0xe88edd63010b5d0b1393ad772f19e282687cbef8",
 ];
 
-// const url = "https://server.chainwatcher.app/";
-const url = "http://localhost:4000/";
+const url = "https://chainwatcher-server.onrender.com/";
+// const url = "http://localhost:4000/";
 
 const socket = io(url);
 const { ethereum } = window;
