@@ -65,7 +65,7 @@ export default function WalletInfo() {
             id="contractAddress"
             placeholder={ca ? ca : "Enter Contract Address"}
             required={true}
-            icon={fetchingHistory ? Spinner : AiOutlineSearch}
+            rightIcon={fetchingHistory ? Spinner : AiOutlineSearch}
             onChange={(e) => setSearchValue(e.target.value)}
             value={searchValue}
           />
