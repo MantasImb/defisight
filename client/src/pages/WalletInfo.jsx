@@ -92,7 +92,7 @@ export default function WalletInfo() {
                 {chainId == 10 && (
                   <OptimismLogo className="h-5 w-5 self-center invert" />
                 )}
-                {!chainId && <MdOutlineKeyboardArrowDown />}
+                {!chainId && <MdOutlineKeyboardArrowDown className="text-lg" />}
               </div>
             }
             arrowIcon={false}
