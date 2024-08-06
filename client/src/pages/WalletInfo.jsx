@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import { Header, TxTable } from "../components";
 import { TextInput, Card, Spinner, Dropdown } from "flowbite-react";
-import { AiOutlineSearch } from "react-icons/ai";
 import { SiBinance, SiEthereum } from "react-icons/si";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
@@ -11,6 +10,7 @@ import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
 import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
 
 import { APIContext } from "../contexts/APIProvider";
+import { AiOutlineSearch } from "react-icons/ai";
 
 export default function WalletInfo() {
   const { chainId, ca } = useParams();
@@ -58,34 +58,45 @@ export default function WalletInfo() {
           onSubmit={(e) => {
             handleSubmit(e);
           }}
-          className="flex md:w-2/3"
+          className="flex md:w-2/3 gap-2"
         >
           <TextInput
-            className="mr-2 w-full"
+            className="w-full"
             id="contractAddress"
             placeholder={ca ? ca : "Enter Contract Address"}
             required={true}
-            rightIcon={fetchingHistory ? Spinner : AiOutlineSearch}
+            addon={
+              fetchingHistory ? (
+                <Spinner className="text-lg" />
+              ) : (
+                <AiOutlineSearch className="text-lg" />
+              )
+            }
+            color="purple"
             onChange={(e) => setSearchValue(e.target.value)}
             value={searchValue}
           />
           <Dropdown
             label={
-              <>
-                {chainId == 1 && <SiEthereum />}
-                {chainId == 56 && <SiBinance />}
-                {chainId == 11155111 && "Sep"}
+              <div className="flex items-center justify-center w-7">
+                {chainId == 1 && <SiEthereum className="text-lg" />}
+                {chainId == 56 && <SiBinance className="text-lg" />}
+                {chainId == 11155111 && (
+                  <p className="text-sm flex items-center justify-center leading-3">
+                    S<SiEthereum className="text-lg" />
+                  </p>
+                )}
                 {chainId == 42161 && (
-                  <ArbitrumLogo className="mx-1 h-5 w-5 self-center invert" />
+                  <ArbitrumLogo className="h-5 w-5 self-center invert" />
                 )}
                 {chainId == 10 && (
-                  <OptimismLogo className="mx-1 h-5 w-5 self-center invert" />
+                  <OptimismLogo className="h-5 w-5 self-center invert" />
                 )}
                 {!chainId && <MdOutlineKeyboardArrowDown />}
-              </>
+              </div>
             }
             arrowIcon={false}
-            size="lg"
+            size="md"
             className=""
             color="purple"
           >
