@@ -52,7 +52,7 @@ export default function WalletInfo() {
 
   return (
     <div className="m-2 mt-14 flex flex-col rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
-      <div className="flex flex-col items-center justify-center md:flex-row md:justify-between">
+      <div className="flex flex-col items-center justify-center md:flex-row md:justify-between gap-4">
         <Header title="Wallet" info="View transactions of a specific wallet" />
         <form
           onSubmit={(e) => {
@@ -67,7 +67,7 @@ export default function WalletInfo() {
             required={true}
             addon={
               fetchingHistory ? (
-                <Spinner className="text-lg" />
+                <Spinner color="gray" className="text-lg max-w-[18px]" />
               ) : (
                 <AiOutlineSearch className="text-lg" />
               )

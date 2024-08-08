@@ -22,7 +22,7 @@ export default function WalletPopover() {
   return (
     <Dropdown
       label={
-        <div className="p-3 text-xl text-white hover:drop-shadow-xl md:text-3xl rounded-full bg-purple-600 hover:bg-purple-700">
+        <div className="p-3 text-xl text-white hover:drop-shadow-xl md:text-3xl rounded-full bg-purple-600 hover:bg-purple-700 h-11 w-11 md:h-14 md:w-14">
           <SlWallet />
         </div>
       }

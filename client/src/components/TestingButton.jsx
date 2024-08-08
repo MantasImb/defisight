@@ -36,12 +36,12 @@ export default function TestingButton() {
     >
       <div
         onClick={handleClick}
-        className="p-3 hover:drop-shadow-xl rounded-full bg-purple-600 hover:bg-purple-700 cursor-pointer"
+        className="flex items-center justify-center p-3 hover:drop-shadow-xl rounded-full bg-purple-600 hover:bg-purple-700 cursor-pointer h-11 w-11 md:h-14 md:w-14"
       >
         {isLoading ? (
-          <Spinner color="purple" />
+          <Spinner color="purple" className="text-xl md:text-3xl" />
         ) : (
-          <GrTest className=" text-white text-xl md:text-3xl " />
+          <GrTest className="text-white text-xl md:text-3xl" />
         )}
       </div>
     </Tooltip>
