@@ -265,7 +265,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
                 onChange={handleFormChange}
                 color="purple"
               >
-                <option value={11155111}>sepolia</option>
+                <option value={11155111}>Sepolia</option>
                 {/* Below are disabled because the project is sunset and is only used as a showcase */}
                 <option
                   disabled
