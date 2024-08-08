@@ -52,13 +52,13 @@ export default function WalletInfo() {
 
   return (
     <div className="m-2 mt-14 flex flex-col rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
-      <div className="flex flex-col items-center justify-center md:flex-row md:justify-between gap-4">
+      <div className="flex flex-col items-start justify-center md:flex-row md:justify-between gap-4">
         <Header title="Wallet" info="View transactions of a specific wallet" />
         <form
           onSubmit={(e) => {
             handleSubmit(e);
           }}
-          className="flex md:w-2/3 gap-2"
+          className="flex md:w-2/3 gap-2 self-center"
         >
           <TextInput
             className="w-full"
