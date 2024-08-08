@@ -263,6 +263,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
                 name="chainId"
                 required={true}
                 onChange={handleFormChange}
+                color="purple"
               >
                 <option value={11155111}>sepolia</option>
                 {/* Below are disabled because the project is sunset and is only used as a showcase */}
