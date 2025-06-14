@@ -1,32 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Header } from "../components";
 import { AiOutlineCopy, AiOutlineCheck } from "react-icons/ai";
 import { Button, Accordion, Card } from "flowbite-react";
 
+import { StateContext } from "../contexts/StateProvider";
+import {
+  bgColorVariants,
+  borderColorVariants,
+  textColorVariants,
+} from "../../utils/colorVariance";
+import { twMerge } from "tailwind-merge";
+
 export default function TokenInfo() {
+  const { currentColor } = useContext(StateContext);
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("chart");
   return (
-    <div className="m-2 mt-14 flex h-full flex-col gap-3 rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
-      <div className="flex justify-between items-start">
+    <div className="m-2 mt-14 flex h-full flex-col gap-3 rounded-3xl bg-white p-2 dark:bg-secondary-dark-bg md:mx-10 md:mt-4 md:p-8">
+      <div className="flex items-start justify-between">
         <Header title="Token info" info="" />
         <Button.Group>
           <Button
-            color={tab === "info" ? "purple" : "white"}
+            color={tab === "info" ? currentColor : "white"}
             onClick={() => {
               setTab("info");
             }}
-            className="border-1 focus:outline-none"
+            className="border-1 text-black focus:outline-none focus:ring-1 dark:text-white"
           >
             <AiOutlineCopy className="mr-3 h-4 w-4" />
             Info
           </Button>
           <Button
-            color={tab === "chart" ? "purple" : "white"}
+            color={tab === "chart" ? currentColor : "white"}
             onClick={() => {
               setTab("chart");
             }}
-            className="border-1 focus:outline-none"
+            className="border-1 text-black focus:outline-none focus:ring-1 dark:text-white"
           >
             <AiOutlineCopy className="mr-3 h-4 w-4" />
             Chart
@@ -36,9 +45,7 @@ export default function TokenInfo() {
       {tab === "info" && (
         <Accordion flush={true}>
           <Accordion.Panel>
-            <Accordion.Title className="text-purple-400 focus:text-purple-600">
-              Tokenomics
-            </Accordion.Title>
+            <Accordion.Title>Tokenomics</Accordion.Title>
             <Accordion.Content>
               <Card>
                 <div className="flex justify-around">
@@ -52,7 +59,12 @@ export default function TokenInfo() {
                       Liquidity
                     </p>
                   </div>
-                  <div className="mx-2 w-1 rounded-lg bg-purple-600" />
+                  <div
+                    className={twMerge(
+                      "mx-2 w-1 rounded-lg",
+                      bgColorVariants({ color: currentColor })
+                    )}
+                  />
                   <div className="flex w-1/2 flex-col items-center justify-center">
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                       Tax Breakdown
@@ -71,13 +83,11 @@ export default function TokenInfo() {
             </Accordion.Content>
           </Accordion.Panel>
           <Accordion.Panel>
-            <Accordion.Title className="text-purple-400 focus:text-purple-600">
-              Additional info
-            </Accordion.Title>
-            <Accordion.Content>
+            <Accordion.Title>Additional info</Accordion.Title>
+            <Accordion.Content className="text-black dark:text-white">
               <p className="text-lg font-semibold">Contract Address:</p>
               <div className="mb-2 flex items-center gap-3">
-                <p className="italic text-black">
+                <p className="italic">
                   0xec4a2eC33Be08D3f366013Cf64c4774AB0E06a30
                 </p>
                 <div
@@ -88,11 +98,22 @@ export default function TokenInfo() {
                     setCopied(true);
                   }}
                 >
-                  {" "}
                   {copied ? (
-                    <AiOutlineCheck className="rounded-lg border-2 border-purple-600 p-1 text-3xl text-purple-600 hover:cursor-pointer" />
+                    <AiOutlineCheck
+                      className={twMerge(
+                        "rounded-lg border-2 p-1 text-3xl hover:cursor-pointer",
+                        textColorVariants({ color: currentColor }),
+                        borderColorVariants({ color: currentColor })
+                      )}
+                    />
                   ) : (
-                    <AiOutlineCopy className="rounded-lg border-2 border-purple-600 p-1 text-3xl text-purple-600 hover:cursor-pointer" />
+                    <AiOutlineCopy
+                      className={twMerge(
+                        "rounded-lg border-2 p-1 text-3xl hover:cursor-pointer",
+                        textColorVariants({ color: currentColor }),
+                        borderColorVariants({ color: currentColor })
+                      )}
+                    />
                   )}
                 </div>
               </div>
@@ -125,7 +146,7 @@ export default function TokenInfo() {
       )}
       {tab === "chart" && (
         <iframe
-          className="flex h-full w-full rounded-lg border"
+          className="flex h-full w-full rounded-lg"
           src="https://dexscreener.com/ethereum/0xED5ef2c33D589debD4845eFa6944C508bd03647D?embed=1&theme=dark&trades=0&info=1"
         ></iframe>
       )}

@@ -1,42 +1,74 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 
 import { Button } from "flowbite-react";
-import image from "../assets/welcome.png";
-import { GrTest } from "react-icons/gr";
+import purpleImage from "../assets/welcomePurple.png";
+import greenImage from "../assets/welcomeGreen.png";
+import redImage from "../assets/welcomeRed.png";
+import yellowImage from "../assets/welcomeYellow.png";
+import { ReactComponent as GrTest } from "../assets/grTestIcon.svg";
+import { twMerge } from "tailwind-merge";
+import {
+  bgColorVariants,
+  borderColorVariants,
+  textColorVariants,
+} from "../../utils/colorVariance";
+import { StateContext } from "../contexts/StateProvider";
 
 function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
   if (!isOpen) return null;
+  const { currentColor, currentMode } = useContext(StateContext);
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 z-20 top-0 left-0 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50 flex items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-2 md:gap-4 overflow-hidden rounded-md border border-purple-700 bg-white shadow-lg w-4/5 lg:w-1/2">
-        <img src={image} />
-        <h1 className="text-xl sm:text-2xl font-bold text-center px-2">
+    <div
+      className={twMerge(
+        "fixed inset-0 left-0 top-0 z-20 flex h-full w-full items-center justify-center overflow-y-auto bg-black/50",
+        currentMode === "Dark" && "dark"
+      )}
+    >
+      <div
+        className={twMerge(
+          borderColorVariants({ color: currentColor }),
+          "flex w-4/5 flex-col items-center justify-center gap-2 overflow-hidden rounded-md border bg-white shadow-lg dark:bg-secondary-dark-bg md:gap-4 lg:w-1/2"
+        )}
+      >
+        {currentColor === "purple" && <img src={purpleImage} />}
+        {currentColor === "red" && <img src={redImage} />}
+        {currentColor === "green" && <img src={greenImage} />}
+        {currentColor === "yellow" && <img src={yellowImage} />}
+        <h1 className="px-2 text-center text-xl font-bold dark:text-gray-200 sm:text-2xl">
           Welcome to the ChainWatcher!
         </h1>
-        <div className="flex flex-col text-center gap-2 px-2 md:px-4">
-          <p className="text-gray-500">
+        <div className="flex flex-col gap-2 px-2 text-center text-gray-500 dark:text-white md:px-4">
+          <p>
             ChainWatcher is a work-in-progress, constantly striving to bring you
             the best tools for monitoring and profiting from the ICO&#39;s of
             the crypto world.
           </p>
-          <div className="w-full h-[1px] bg-gray-500 my-2" />
-          <p className="text-gray-500">
+          <div className="my-2 h-[1px] w-full bg-gray-500" />
+          <p>
             The project, as of now, is sunset and is used as a showcase for my
             personal portfolio -{" "}
             <a
-              className="text-purple-600 underline"
+              className={twMerge(
+                textColorVariants({ color: currentColor }),
+                "underline"
+              )}
               href="https://www.mantas.im"
             >
               Mantas.im
             </a>
             .
           </p>
-          <p className="text-gray-500">
+          <p>
             Feel free to simulate a new wallet, add a testing wallet to your
             tracked wallets, and press the
-            <span className="inline-block mx-1 -mb-1 p-1 rounded-full bg-purple-600">
+            <span
+              className={twMerge(
+                bgColorVariants({ color: currentColor }),
+                "mx-1 -mb-1 inline-block rounded-full p-1"
+              )}
+            >
               <GrTest className="text-white" />
             </span>
             button to simulate a transaction. Give it a few moments and you
@@ -44,10 +76,10 @@ function WelcomeModal({ isOpen, connect, simulateRandomWallet }) {
           </p>
         </div>
         <div className="flex w-full justify-center gap-4 px-2 pb-2 md:pb-4">
-          <Button onClick={connect} size="md" color="purple">
+          <Button onClick={connect} size="md" color={currentColor}>
             Connect Wallet
           </Button>
-          <Button onClick={simulateRandomWallet} size="md" color="purple">
+          <Button onClick={simulateRandomWallet} size="md" color={currentColor}>
             Simulate Wallet
           </Button>
         </div>

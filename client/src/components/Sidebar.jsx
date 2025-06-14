@@ -8,6 +8,9 @@ import { SiMedium } from "react-icons/si";
 import { TbRadar2 } from "react-icons/tb";
 import { GiToken } from "react-icons/gi";
 import image from "../assets/logominified-removebg-preview.png";
+import { StateContext } from "../contexts/StateProvider";
+import { twMerge } from "tailwind-merge";
+import { bgColorVariants, textColorVariants } from "../../utils/colorVariance";
 
 const links = [
   {
@@ -57,15 +60,15 @@ function SocialButton({ customFunc, icon, color }) {
     <button
       type="button"
       onClick={customFunc}
-      style={{ color }}
-      className="relative rounded-full p-3 text-xl hover:bg-light-gray cursor-not-allowed"
+      className={twMerge(
+        textColorVariants({ color }),
+        "relative cursor-not-allowed rounded-full p-3 text-xl hover:bg-light-gray"
+      )}
     >
       {icon}
     </button>
   );
 }
-
-import { StateContext } from "../contexts/StateProvider";
 
 export default function Sidebar() {
   const { activeMenu, setActiveMenu, screenSize, currentColor, setToastState } =
@@ -77,8 +80,10 @@ export default function Sidebar() {
     }
   }
 
-  const activeLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
+  const activeLink = twMerge(
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2",
+    bgColorVariants({ color: currentColor })
+  );
   const normalLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
@@ -107,9 +112,6 @@ export default function Sidebar() {
             <div className="mt-10">
               <NavLink
                 to={`/token-info`}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                })}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
@@ -129,9 +131,6 @@ export default function Sidebar() {
                       to={`/${link.link}`}
                       key={link.name}
                       onClick={handleCloseSideBar}
-                      style={({ isActive }) => ({
-                        backgroundColor: isActive ? currentColor : "",
-                      })}
                       className={({ isActive }) =>
                         isActive ? activeLink : normalLink
                       }
@@ -153,8 +152,8 @@ export default function Sidebar() {
             </div>
             <div className="mt-auto flex justify-around">
               <SocialButton
-                color={currentColor}
                 icon={<FaTwitter />}
+                color={currentColor}
                 customFunc={() => {
                   setToastState({
                     message: "The project has sunset.",
@@ -163,8 +162,8 @@ export default function Sidebar() {
                 }}
               />
               <SocialButton
-                color={currentColor}
                 icon={<FaTelegram />}
+                color={currentColor}
                 customFunc={() => {
                   setToastState({
                     message: "The project has sunset.",
@@ -173,8 +172,8 @@ export default function Sidebar() {
                 }}
               />
               <SocialButton
-                color={currentColor}
                 icon={<SiMedium />}
+                color={currentColor}
                 customFunc={() => {
                   setToastState({
                     message: "The project has sunset.",

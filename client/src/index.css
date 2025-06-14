@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   padding: 0;
@@ -9,7 +13,3 @@ body {
 #portal {
   @apply h-full w-full;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

@@ -4,19 +4,23 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { Notifications } from ".";
 
 import { StateContext } from "../contexts/StateProvider";
+import { twMerge } from "tailwind-merge";
+import { textColorVariants } from "../../utils/colorVariance";
 
 function NavButton({ customFunc, icon, color, isActive }) {
   return (
     <button
       type="button"
       onClick={customFunc}
-      style={{ color }}
-      className="relative text-2xl rounded-full p-3 hover:bg-light-gray"
+      className={twMerge(
+        textColorVariants({ color }),
+        "relative rounded-full p-3 text-2xl hover:bg-light-gray"
+      )}
     >
       {isActive && (
         <span
           style={{ background: "#03C9D7" }}
-          className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
+          className="absolute right-2 top-2 inline-flex h-2 w-2 rounded-full"
         />
       )}
       {icon}
@@ -47,7 +51,7 @@ export default function Navbar() {
     }
   }, [screenSize]);
   return (
-    <div className="flex justify-between p-2 md:mx-6 relative">
+    <div className="relative flex justify-between p-2 px-6">
       <NavButton
         title="Menu"
         customFunc={() => setActiveMenu((prevValue) => !prevValue)}

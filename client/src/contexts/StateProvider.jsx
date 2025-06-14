@@ -7,8 +7,12 @@ export const StateContext = createContext();
 export function StateProvider({ children }) {
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
-  const [currentColor, setCurrentColor] = useState("#6b2bd9");
-  const [currentMode, setCurrentMode] = useState("Light");
+  const [currentColor, setCurrentColor] = useState(
+    localStorage.getItem("themeColor") || "purple"
+  );
+  const [currentMode, setCurrentMode] = useState(
+    localStorage.getItem("themeMode") || "Light"
+  );
   const [themeSettings, setThemeSettings] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [toastState, setToastState] = useState({
@@ -17,16 +21,14 @@ export function StateProvider({ children }) {
   });
   const [toastAwaitingReset, setToastAwaitingReset] = useState(false);
 
-  function setMode(e) {
-    setCurrentMode(e.target.value);
-    localStorage.setItem("themeMode", e.target.value);
-    setThemeSettings(false);
+  function setMode(mode) {
+    setCurrentMode(mode);
+    localStorage.setItem("themeMode", mode);
   }
 
   function setColor(arg) {
     setCurrentColor(arg);
     localStorage.setItem("themeColor", arg);
-    setThemeSettings(false);
   }
 
   useEffect(() => {

@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Spinner, Tooltip } from "flowbite-react";
-import { GrTest } from "react-icons/gr";
+import { ReactComponent as GrTest } from "../assets/grTestIcon.svg";
 
 import { APIContext } from "../contexts/APIProvider";
 import { StateContext } from "../contexts/StateProvider";
+import { twMerge } from "tailwind-merge";
+import { bgColorVariants } from "../../utils/colorVariance";
 
 export default function TestingButton() {
   const { simulateSepoliaTransaction } = useContext(APIContext);
-  const { setToastState } = useContext(StateContext);
+  const { setToastState, currentColor } = useContext(StateContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -32,16 +34,23 @@ export default function TestingButton() {
     <Tooltip
       content="Simulate Sepolia transaction"
       disabled={isLoading}
-      className="overflow-y-hidden overflow-x-hidden p-2"
+      className="overflow-x-hidden overflow-y-hidden p-2"
     >
       <div
         onClick={handleClick}
-        className="flex items-center justify-center p-3 hover:drop-shadow-xl rounded-full bg-purple-600 hover:bg-purple-700 cursor-pointer h-11 w-11 md:h-14 md:w-14"
+        className={twMerge(
+          bgColorVariants({ color: currentColor }),
+          "flex h-11 w-11 cursor-pointer items-center justify-center rounded-full p-3 hover:drop-shadow-xl md:h-14 md:w-14"
+        )}
       >
         {isLoading ? (
-          <Spinner color="purple" className="text-xl md:text-3xl" />
+          <Spinner
+            light
+            color="gray"
+            className="text-xl text-white md:text-3xl"
+          />
         ) : (
-          <GrTest className="text-white text-xl md:text-3xl" />
+          <GrTest className="text-xl text-white md:text-3xl" />
         )}
       </div>
     </Tooltip>

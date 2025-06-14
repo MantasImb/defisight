@@ -99,7 +99,11 @@ export default function Notifications() {
             />
 
             <Dropdown.Item
-              className={!notification.seen ? "flex-1" : "flex-1 bg-slate-50"}
+              className={
+                !notification.seen
+                  ? "flex-1"
+                  : "flex-1 bg-slate-50 dark:bg-slate-600"
+              }
               onClick={() => handleNotificationClick(notification)}
             >
               {/* TODO: Add onClick functionality to the tag, to redirect the page to the wallet info */}
@@ -127,8 +131,8 @@ export default function Notifications() {
               )}
 
               <Button
-                outline={true}
-                color="purple"
+                outline={false}
+                color={currentColor}
                 size="xs"
                 onClick={(e) => {
                   let address =
@@ -158,7 +162,7 @@ export default function Notifications() {
           </div>
         ))
       ) : (
-        <p className="text-center italic text-sm">No notifications to show.</p>
+        <p className="text-center text-sm italic">No notifications to show.</p>
       )}
     </Dropdown>
   );

@@ -7,12 +7,16 @@ import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
 import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
 
 import { APIContext } from "../contexts/APIProvider";
+import { StateContext } from "../contexts/StateProvider";
 
 import { shortenAddress } from "../../utils/shortenAddress";
+import { twMerge } from "tailwind-merge";
+import { bgColorVariants } from "../../utils/colorVariance";
 
 export default function WalletPopover() {
   const { currentAccount, disconnectSimulatedWallet, getBalance, chainId } =
     useContext(APIContext);
+  const { currentColor } = useContext(StateContext);
   const [userBalance, setUserBalance] = useState();
   useEffect(() => {
     if (currentAccount && currentAccount.startsWith("0x"))
@@ -22,7 +26,12 @@ export default function WalletPopover() {
   return (
     <Dropdown
       label={
-        <div className="p-3 text-xl text-white hover:drop-shadow-xl md:text-3xl rounded-full bg-purple-600 hover:bg-purple-700 h-11 w-11 md:h-14 md:w-14">
+        <div
+          className={twMerge(
+            bgColorVariants({ color: currentColor }),
+            "h-11 w-11 rounded-full p-3 text-xl text-white hover:drop-shadow-xl md:h-14 md:w-14 md:text-3xl"
+          )}
+        >
           <SlWallet />
         </div>
       }
@@ -31,7 +40,7 @@ export default function WalletPopover() {
       arrowIcon={false}
       className="overflow-y-auto overflow-x-hidden p-2"
     >
-      <Dropdown.Header className="flex items-end flex-col">
+      <Dropdown.Header className="flex flex-col items-end">
         <div className="flex flex-row items-center justify-center gap-2">
           <p className="text-nowrap text-sm">Connected wallet:</p>
           <p className="font-semibold">
@@ -69,17 +78,17 @@ export default function WalletPopover() {
               </div>
               Disconnect wallet
             </div>
-            <p className="text-xs text-red-500 text-nowrap">
+            <p className="text-nowrap text-xs text-red-500">
               Simulated wallet will be deleted
             </p>
           </Dropdown.Item>
         ) : (
           <>
-            <div className="flex flex-row justify-center items-center gap-2">
+            <div className="flex flex-row items-center justify-center gap-2">
               <p className="text-nowrap text-sm">Chain connected:</p>
               <ChainNameWithIcon chainId={chainId} />
             </div>
-            <div className="flex flex-row justify-center items-center">
+            <div className="flex flex-row items-center justify-center">
               <p className="text-nowrap pr-2 text-sm">Wallet balance:</p>
               <ChainIcon chainId={chainId} />
               {userBalance && (

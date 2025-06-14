@@ -1,12 +1,17 @@
 import { Button, Label, Select, TextInput, Spinner } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { ethers } from "ethers";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
+import { twMerge } from "tailwind-merge";
+import { StateContext } from "../contexts/StateProvider";
+import { borderColorVariants } from "../../utils/colorVariance";
 
 export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
   if (!isOpen) return null;
+
+  const { currentMode, currentColor } = useContext(StateContext);
 
   const [formValues, setFormValues] = useState({
     tag: "",
@@ -120,21 +125,25 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
   }
 
   return ReactDOM.createPortal(
-    <>
+    <div className={twMerge("h-full w-full", currentMode === "Dark" && "dark")}>
       {/* overlay */}
       <div
         onClick={() => onClose()}
-        className="fixed inset-0 z-10 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50"
+        className="fixed inset-0 z-10 h-full w-full overflow-y-auto bg-black/60"
       ></div>
       {/* content */}
-      <div className="fixed top-1/2 left-1/2 z-20 flex w-96 -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md border border-purple-700 bg-white p-5 shadow-lg">
+      <div
+        className={twMerge(
+          "fixed left-1/2 top-1/2 z-20 flex w-96 -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md border bg-white p-5 shadow-lg dark:bg-secondary-dark-bg",
+          borderColorVariants({ color: currentColor })
+        )}
+      >
         <AiOutlineClose
           className="ml-auto rounded-full p-1 text-gray-500 hover:bg-light-gray"
           fontSize={24}
           onClick={() => onClose()}
         />
         <div className="m-2 p-2">
-          {" "}
           <div className="text-md flex flex-col gap-4 md:text-lg">
             <div>
               <div className="mb-2 block">
@@ -144,7 +153,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
                 id="tag"
                 name="tag"
                 required={true}
-                color="purple"
+                color={currentColor}
                 onChange={handleFormChange}
                 helperText={
                   <span className="italic text-red-500">{formErrors.tag}</span>
@@ -294,7 +303,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
             <Button
               onClick={handleSubmit}
               size="md"
-              color="purple"
+              color={currentColor}
               disabled={formErrors.address.length || formErrors.tag.length}
             >
               Submit
@@ -302,7 +311,7 @@ export default function NewWalletModal({ isOpen, onClose, onSubmit }) {
           )}
         </div>
       </div>
-    </>,
+    </div>,
     document.getElementById("portal")
   );
 }

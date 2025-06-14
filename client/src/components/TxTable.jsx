@@ -16,9 +16,15 @@ import {
 } from "../../utils/openInNewTab";
 
 import { StateContext } from "../contexts/StateProvider";
+import { twMerge } from "tailwind-merge";
+import {
+  bgColorVariants,
+  borderColorVariants,
+  textColorVariants,
+} from "../../utils/colorVariance";
 
 export default function TxTable({ data, chainId }) {
-  const { screenSize } = useContext(StateContext);
+  const { screenSize, currentColor } = useContext(StateContext);
 
   function AddressCell({ value }) {
     let string;
@@ -31,8 +37,8 @@ export default function TxTable({ data, chainId }) {
         {value && (
           <Tooltip content={value}>
             <Button
-              outline={true}
-              color="purple"
+              outline={false}
+              color={currentColor}
               size="sm"
               onClick={() => openInExplorerNewTab(value)}
             >
@@ -79,7 +85,7 @@ export default function TxTable({ data, chainId }) {
           >
             <Button
               className="mr-2"
-              color={value.bonus.isError == 0 ? "purple" : "failure"}
+              color={value.bonus.isError == 0 ? { currentColor } : "failure"}
               size="xs"
             >
               <AiFillEye className="text-white" />
@@ -166,30 +172,39 @@ export default function TxTable({ data, chainId }) {
   }, [screenSize]);
 
   return (
-    <div className="h-screen">
+    <>
       <table
-        className="my-2 mx-auto block h-3/5 overflow-y-auto rounded-md bg-purple-700 text-center text-white shadow sm:w-fit"
+        className={twMerge(
+          "rounded-md text-center text-white shadow sm:w-fit",
+          bgColorVariants({ color: currentColor })
+        )}
         {...getTableProps()}
       >
         <thead className="">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th className="py-1 px-2" {...column.getHeaderProps()}>
+                <th className="px-2 py-1" {...column.getHeaderProps()}>
                   {column.render("Header")}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody className="bg-gray-50 text-black" {...getTableBodyProps()}>
+        <tbody
+          className="h-full bg-gray-50 text-black dark:bg-gray-700 dark:text-white"
+          {...getTableBodyProps()}
+        >
           {page.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <td
-                    className="border-b-1 border-purple-700 py-1 px-2"
+                    className={twMerge(
+                      "border-b-1 px-2 py-1",
+                      borderColorVariants({ color: currentColor })
+                    )}
                     {...cell.getCellProps()}
                   >
                     {cell.render("Cell")}
@@ -200,11 +215,11 @@ export default function TxTable({ data, chainId }) {
           })}
         </tbody>
       </table>
-      <div className="flex flex-row md:justify-center">
+      <div className="flex flex-row pt-2 md:justify-center">
         <Button
           size="sm"
-          className="ml-1  hidden text-white md:block"
-          color="purple"
+          className="ml-1 hidden dark:text-white md:block"
+          color={currentColor}
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
         >
@@ -212,29 +227,37 @@ export default function TxTable({ data, chainId }) {
         </Button>
         <Button
           size="sm"
-          className="ml-1  text-white"
-          color="purple"
+          className="ml-1  dark:text-white"
+          color={currentColor}
           onClick={previousPage}
           disabled={!canPreviousPage}
         >
           {"<"}
         </Button>
-        <span className="ml-1 flex items-center rounded-md bg-purple-700 py-1.5 px-3 text-center text-sm text-white">
-          Page:{" "}
+        <span
+          className={twMerge(
+            "ml-1 flex items-center rounded-md px-3 py-1.5 text-center text-sm text-white",
+            bgColorVariants({ color: currentColor })
+          )}
+        >
+          Page:
           <input
-            className="mx-2 h-6 w-8 rounded-md border-none text-center font-semibold text-purple-700"
+            className={twMerge(
+              "mx-2 h-6 w-8 rounded-md border-none text-center font-semibold",
+              textColorVariants({ color: currentColor })
+            )}
             placeholder={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               gotoPage(page);
             }}
-          />{" "}
+          />
           of {pageOptions.length}
         </span>
         <Button
           size="sm"
-          color="purple"
-          className="ml-1 rounded-md text-white"
+          color={currentColor}
+          className="ml-1 rounded-md dark:text-white"
           onClick={nextPage}
           disabled={!canNextPage}
         >
@@ -242,14 +265,14 @@ export default function TxTable({ data, chainId }) {
         </Button>
         <Button
           size="sm"
-          color="purple"
-          className="ml-1 hidden rounded-md text-white md:block"
+          color={currentColor}
+          className="ml-1 hidden rounded-md dark:text-white md:block"
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
         >
           {"Last"}
         </Button>
       </div>
-    </div>
+    </>
   );
 }

@@ -10,22 +10,16 @@ import { ReactComponent as ArbitrumLogo } from "../assets/arbitrum-logo.svg";
 import { ReactComponent as OptimismLogo } from "../assets/optimism-logo.svg";
 
 import { APIContext } from "../contexts/APIProvider";
+import { StateContext } from "../contexts/StateProvider";
 import { AiOutlineSearch } from "react-icons/ai";
 
 export default function WalletInfo() {
   const { chainId, ca } = useParams();
-  const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState("");
   const [accountHistory, setAccountHistory] = useState([]);
   const [historyError, setHistoryError] = useState();
   const [fetchingHistory, setFetchingHistory] = useState(false);
 
   const { getHistory } = useContext(APIContext);
-
-  function handleSubmit() {
-    navigate(`/wallet-info/${chainId}/${searchValue}`);
-  }
-
   useEffect(() => {
     if (!ca) return;
     setFetchingHistory(true);
@@ -51,89 +45,16 @@ export default function WalletInfo() {
   }, [chainId]);
 
   return (
-    <div className="m-2 mt-14 flex flex-col rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8">
-      <div className="flex flex-col justify-center md:items-center md:flex-row md:justify-between gap-4">
+    <div className="flex h-auto flex-col overflow-y-hidden rounded-3xl bg-white p-2 dark:bg-secondary-dark-bg md:p-8">
+      <div className="flex flex-col justify-center gap-4 md:flex-row md:items-center md:justify-between">
         <Header title="Wallet" info="View transactions of a specific wallet" />
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-          className="flex md:w-2/3 gap-2"
-        >
-          <TextInput
-            className="w-full"
-            id="contractAddress"
-            placeholder={ca ? ca : "Enter Contract Address"}
-            required={true}
-            addon={
-              fetchingHistory ? (
-                <Spinner color="gray" className="text-lg max-w-[18px]" />
-              ) : (
-                <AiOutlineSearch className="text-lg" />
-              )
-            }
-            color="purple"
-            onChange={(e) => setSearchValue(e.target.value)}
-            value={searchValue}
-          />
-          <Dropdown
-            label={
-              <div className="flex items-center justify-center w-7">
-                {chainId == 1 && <SiEthereum className="text-lg" />}
-                {chainId == 56 && <SiBinance className="text-lg" />}
-                {chainId == 11155111 && (
-                  <p className="text-sm flex items-center justify-center leading-3">
-                    S<SiEthereum className="text-lg" />
-                  </p>
-                )}
-                {chainId == 42161 && (
-                  <ArbitrumLogo className="h-5 w-5 self-center invert" />
-                )}
-                {chainId == 10 && (
-                  <OptimismLogo className="h-5 w-5 self-center invert" />
-                )}
-                {!chainId && <MdOutlineKeyboardArrowDown className="text-lg" />}
-              </div>
-            }
-            arrowIcon={false}
-            size="md"
-            className=""
-            color="purple"
-          >
-            <Dropdown.Item
-              icon={SiEthereum}
-              onClick={() => navigate(`/wallet-info/1/${searchValue}`)}
-            >
-              Ethereum Mainnet
-            </Dropdown.Item>
-            <Dropdown.Item
-              icon={SiBinance}
-              onClick={() => navigate(`/wallet-info/56/${searchValue}`)}
-            >
-              Binance Smart Chain
-            </Dropdown.Item>
-            <Dropdown.Item
-              icon={SiEthereum}
-              onClick={() => navigate(`/wallet-info/11155111/${searchValue}`)}
-            >
-              sepolia TESTNET
-            </Dropdown.Item>
-            <Dropdown.Item
-              icon={ArbitrumLogo}
-              onClick={() => navigate(`/wallet-info/42161/${searchValue}`)}
-            >
-              Arbitrum
-            </Dropdown.Item>
-            <Dropdown.Item
-              icon={OptimismLogo}
-              onClick={() => navigate(`/wallet-info/10/${searchValue}`)}
-            >
-              Optimism
-            </Dropdown.Item>
-          </Dropdown>
-        </form>
+        <SearchForm
+          fetchingHistory={fetchingHistory}
+          chainId={chainId}
+          ca={ca}
+        />
       </div>
-      <div className="flex flex-col justify-center">
+      <div className="flex h-full flex-col items-center justify-start overflow-y-auto">
         {accountHistory.length > 0 && (
           <TxTable data={accountHistory} chainId={chainId} />
         )}
@@ -149,5 +70,96 @@ export default function WalletInfo() {
         )}
       </div>
     </div>
+  );
+}
+
+function SearchForm({ fetchingHistory, chainId, ca }) {
+  const { currentColor } = useContext(StateContext);
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+
+  function handleSubmit() {
+    navigate(`/wallet-info/${chainId}/${searchValue}`);
+  }
+
+  return (
+    <form
+      onSubmit={(e) => {
+        handleSubmit(e);
+      }}
+      className="flex gap-2 md:w-2/3"
+    >
+      <TextInput
+        className="w-full"
+        id="contractAddress"
+        placeholder={ca ? ca : "Enter Contract Address"}
+        required={true}
+        addon={
+          fetchingHistory ? (
+            <Spinner color="gray" className="max-w-[18px] text-lg" />
+          ) : (
+            <AiOutlineSearch className="text-lg" />
+          )
+        }
+        color={currentColor}
+        onChange={(e) => setSearchValue(e.target.value)}
+        value={searchValue}
+      />
+      <Dropdown
+        label={
+          <div className="flex w-7 items-center justify-center">
+            {chainId == 1 && <SiEthereum className="text-lg" />}
+            {chainId == 56 && <SiBinance className="text-lg" />}
+            {chainId == 11155111 && (
+              <p className="flex items-center justify-center text-sm leading-3">
+                S<SiEthereum className="text-lg" />
+              </p>
+            )}
+            {chainId == 42161 && (
+              <ArbitrumLogo className="h-5 w-5 self-center invert" />
+            )}
+            {chainId == 10 && (
+              <OptimismLogo className="h-5 w-5 self-center invert" />
+            )}
+            {!chainId && <MdOutlineKeyboardArrowDown className="text-lg" />}
+          </div>
+        }
+        arrowIcon={false}
+        size="md"
+        className=""
+        color={currentColor}
+      >
+        <Dropdown.Item
+          icon={SiEthereum}
+          onClick={() => navigate(`/wallet-info/1/${searchValue}`)}
+        >
+          Ethereum Mainnet
+        </Dropdown.Item>
+        <Dropdown.Item
+          icon={SiBinance}
+          onClick={() => navigate(`/wallet-info/56/${searchValue}`)}
+        >
+          Binance Smart Chain
+        </Dropdown.Item>
+        <Dropdown.Item
+          icon={SiEthereum}
+          onClick={() => navigate(`/wallet-info/11155111/${searchValue}`)}
+        >
+          sepolia TESTNET
+        </Dropdown.Item>
+        <Dropdown.Item
+          icon={ArbitrumLogo}
+          onClick={() => navigate(`/wallet-info/42161/${searchValue}`)}
+        >
+          Arbitrum
+        </Dropdown.Item>
+        <Dropdown.Item
+          icon={OptimismLogo}
+          onClick={() => navigate(`/wallet-info/10/${searchValue}`)}
+        >
+          Optimism
+        </Dropdown.Item>
+      </Dropdown>
+    </form>
   );
 }

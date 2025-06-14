@@ -7,3 +7,5 @@ export { default as TxTable } from "./TxTable";
 export { default as WalletsTable } from "./WalletsTable";
 export { default as WalletPopover } from "./WalletPopover";
 export { default as TestingButton } from "./TestingButton";
+export { default as CustomizationButton } from "./CustomizationButton";
+export { default as ThemeSidebar } from "./ThemeSidebar";

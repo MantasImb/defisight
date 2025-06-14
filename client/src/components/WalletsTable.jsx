@@ -22,11 +22,16 @@ import { getAge } from "../../utils/getAge";
 import { shortenAddress } from "../../utils/shortenAddress";
 import { openInExplorerNewTab } from "../../utils/openInNewTab";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { twMerge } from "tailwind-merge";
+import {
+  bgColorVariants,
+  borderColorVariants,
+} from "../../utils/colorVariance";
 
 // ADDRESS CELL
 
 function AddressCell({ value }) {
-  let { walletCA, chainId } = value;
+  let { walletCA, chainId, currentColor } = value;
   let string;
   if (walletCA) {
     string = shortenAddress(walletCA);
@@ -37,8 +42,8 @@ function AddressCell({ value }) {
       {walletCA && (
         <Tooltip content={walletCA}>
           <Button
-            outline={true}
-            color="purple"
+            outline={false}
+            color={currentColor}
             size="sm"
             onClick={() => openInExplorerNewTab(walletCA, chainId)}
           >
@@ -68,7 +73,7 @@ function BalanceCell({ value }) {
 // BUG: Data is not memoized. This causes the table to re-render on every change to the data prop.
 export default function WalletsTable({ data, setData }) {
   const { deleteWallet } = useContext(APIContext);
-  const { setToastState } = useContext(StateContext);
+  const { setToastState, currentColor } = useContext(StateContext);
   const navigate = useNavigate();
 
   function handleOpen(address, chainId) {
@@ -87,8 +92,11 @@ export default function WalletsTable({ data, setData }) {
             onClick={() =>
               navigate(`/wallet-info/${value.chainId}/${value.walletCA}`)
             }
-            className="mr-2"
-            color="purple"
+            className={twMerge(
+              "mr-2",
+              bgColorVariants({ color: currentColor })
+            )}
+            color={currentColor}
             size="xs"
           >
             <AiFillInfoCircle className="text-white" />
@@ -111,7 +119,11 @@ export default function WalletsTable({ data, setData }) {
       },
       {
         Header: "Address",
-        accessor: (row) => ({ walletCA: row.walletCA, chainId: row.chainId }),
+        accessor: (row) => ({
+          walletCA: row.walletCA,
+          chainId: row.chainId,
+          currentColor,
+        }),
         Cell: AddressCell,
       },
       {
@@ -205,7 +217,7 @@ export default function WalletsTable({ data, setData }) {
         ),
       },
     ],
-    [data]
+    [data, currentColor]
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -216,28 +228,37 @@ export default function WalletsTable({ data, setData }) {
 
   return (
     <table
-      className="mx-auto block w-full overflow-auto rounded-md bg-purple-600 text-white shadow-md sm:w-fit"
+      className={twMerge(
+        "mx-auto block w-full overflow-auto rounded-md text-white shadow-md sm:w-fit",
+        bgColorVariants({ color: currentColor })
+      )}
       {...getTableProps()}
     >
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th className="py-1 px-2" {...column.getHeaderProps()}>
+              <th className="px-2 py-1" {...column.getHeaderProps()}>
                 {column.render("Header")}
               </th>
             ))}
           </tr>
         ))}
       </thead>
-      <tbody className="bg-gray-50 text-black" {...getTableBodyProps()}>
+      <tbody
+        className="bg-gray-50 text-black dark:bg-gray-800 dark:text-white"
+        {...getTableBodyProps()}
+      >
         {rows.map((row) => {
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map((cell) => (
                 <td
-                  className="border-b-1 border-purple-700 py-1 px-2"
+                  className={twMerge(
+                    "border-b-1 px-2 py-1",
+                    borderColorVariants({ color: currentColor })
+                  )}
                   {...cell.getCellProps()}
                 >
                   {cell.render("Cell")}

@@ -24,6 +24,11 @@ import {
 import { getAge } from "../../utils/getAge";
 import { AiFillEye } from "react-icons/ai";
 import { Header } from "../components";
+import { twMerge } from "tailwind-merge";
+import {
+  bgColorVariants,
+  borderColorVariants,
+} from "../../utils/colorVariance";
 
 export default function LiveTransactions() {
   const [date, setDate] = useState(new Date());
@@ -72,7 +77,7 @@ export default function LiveTransactions() {
           <>
             <Button
               className="mr-2"
-              color={"purple"}
+              color={currentColor}
               size="xs"
               onClick={() => handleNotificationClick(value)}
             >
@@ -136,8 +141,8 @@ export default function LiveTransactions() {
         }),
         Cell: ({ value }) => (
           <Button
-            outline={true}
-            color="purple"
+            outline={false}
+            color={currentColor}
             size="xs"
             onClick={(e) => {
               let address = value.direction === "in" ? value.from : value.to;
@@ -193,7 +198,7 @@ export default function LiveTransactions() {
         ),
       },
     ],
-    [notifications, date]
+    [notifications, date, currentColor]
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -207,7 +212,7 @@ export default function LiveTransactions() {
   }, []);
 
   return (
-    <div className="m-2 mt-14 h-screen rounded-3xl bg-white p-2 md:mx-10 md:mt-4 md:p-8 gap-4">
+    <div className="flex flex-col gap-4 overflow-hidden rounded-3xl bg-white p-2 py-8 dark:bg-secondary-dark-bg md:px-8">
       <div className="flex flex-col justify-between sm:flex-row">
         <Header
           title="Live Transactions"
@@ -232,15 +237,18 @@ export default function LiveTransactions() {
       </div>
       {notifications.length > 0 && (
         <table
-          className="mx-auto block h-3/5 w-full overflow-auto rounded-md shadow-md sm:w-fit"
+          className={twMerge(
+            "mx-auto block w-full overflow-auto rounded-md shadow-md sm:w-fit",
+            bgColorVariants({ color: currentColor })
+          )}
           {...getTableProps()}
         >
-          <thead className="border-b-1 border-b-purple-600">
+          <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th
-                    className="p-1 text-center text-sm font-thin text-purple-600"
+                    className="p-1 text-center text-sm font-thin text-white"
                     {...column.getHeaderProps()}
                   >
                     {column.render("Header")}
@@ -249,17 +257,21 @@ export default function LiveTransactions() {
               </tr>
             ))}
           </thead>
-          <tbody {...getTableBodyProps()}>
+          <tbody
+            className="bg-gray-50 text-black dark:bg-gray-800 dark:text-white"
+            {...getTableBodyProps()}
+          >
             {rows.map((row) => {
               prepareRow(row);
 
               return (
                 <tr
-                  className={
+                  className={twMerge(
                     !row.original.seen
-                      ? "border-l-4 border-purple-600 hover:bg-gray-100"
-                      : "bg-slate-50 hover:bg-gray-100"
-                  }
+                      ? "border-l-4"
+                      : "bg-slate-50 dark:bg-gray-600",
+                    borderColorVariants({ color: currentColor })
+                  )}
                   {...row.getRowProps()}
                 >
                   {/* <div className={}/> */}
