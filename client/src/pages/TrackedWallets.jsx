@@ -1,5 +1,3 @@
-// TODO: Add styling for dark mode
-
 import { Button } from "flowbite-react";
 import React, { useContext, useState, useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
@@ -68,7 +66,7 @@ export default function TrackedWallets() {
 
       {/* TABLE */}
       <div className="overflow-auto md:flex md:justify-center">
-        {wallets.length > 0 && (
+        {wallets && wallets.length > 0 && (
           <WalletsTable data={wallets} setData={setWallets} />
         )}
       </div>

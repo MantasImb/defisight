@@ -11,7 +11,7 @@ const devWallets = [
   "0xe88edd63010b5d0b1393ad772f19e282687cbef8",
 ];
 
-const url = "defisight-production.up.railway.app";
+const url = "https://defisight-production.up.railway.app";
 // const url = "http://localhost:4000/";
 
 const socket = io(url);
